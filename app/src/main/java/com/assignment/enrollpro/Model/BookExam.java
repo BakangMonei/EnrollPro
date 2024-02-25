@@ -1,11 +1,5 @@
 package com.assignment.enrollpro.Model;
 
-/**
- * @Author: AMG
- * @Date: Wednesday 21/02/2024 February 2024
- * @Time: 01:57
- */
-
 public class BookExam {
     private String moduleLeaderEmail, moduleLeader, studentEmail, studentIDNumber, firstName, lastName, phoneNumber, examRoom, Faculty, moduleName, dateTime;
 
