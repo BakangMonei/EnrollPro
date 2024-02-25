@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <style name="Theme.EnrollPro" parent="Theme.Design.Light.NoActionBar" />
+
+    <style name="Theme.EnrollPro.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.EnrollPro.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.EnrollPro.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+</resources>

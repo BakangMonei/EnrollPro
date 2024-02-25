@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?><!-- @Author: Monei Bakang Mothuti -->
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/black"
+    tools:context=".SplashScreenActivity">
+
+
+    <ImageView
+        android:id="@+id/suitcaseLogo"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:background="@drawable/logo_image_res"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/colllege" />
+
+    <TextView
+        android:id="@+id/splashTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:fontFamily="@font/interbold"
+        android:text="EnrollPro"
+        android:textSize="25sp"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/suitcaseLogo"
+        app:layout_constraintHorizontal_bias="0.489"
+        app:layout_constraintStart_toStartOf="@+id/suitcaseLogo"
+        app:layout_constraintTop_toBottomOf="@+id/suitcaseLogo" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

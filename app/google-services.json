@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "540942520449",
+    "firebase_url": "https://enrollpro-d4377-default-rtdb.firebaseio.com",
+    "project_id": "enrollpro-d4377",
+    "storage_bucket": "enrollpro-d4377.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:540942520449:android:6266c7205c1413ea0e7d80",
+        "android_client_info": {
+          "package_name": "com.assignment.enrollpro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "540942520449-b5gl43r16f65i0cocnqvujoop5s6v53k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAiSPE3GUL_dEQD3JR5mDD0qiRNLYmQiOo"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "540942520449-b5gl43r16f65i0cocnqvujoop5s6v53k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
