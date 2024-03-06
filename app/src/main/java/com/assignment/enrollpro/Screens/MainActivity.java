@@ -1,4 +1,4 @@
-package com.assignment.enrollpro;
+package com.assignment.enrollpro.Screens;
 
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,8 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import com.assignment.enrollpro.Activities.OnboardScreenOne;
+import com.assignment.enrollpro.R;
 
 public class MainActivity extends AppCompatActivity {
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -38,10 +38,10 @@
         android:theme="@style/Theme.EnrollPro"
         tools:targetApi="31" >
         <activity
-            android:name=".BookExamActivity"
+            android:name=".Activities.BookExamActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".Screens.MainActivity"
             android:exported="false" />
         <activity
             android:name=".Screens.LectureActivity"
@@ -51,9 +51,6 @@
             android:exported="false" />
         <activity
             android:name=".Authentications.ForgotPassword"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.RegistrationActivity"
             android:exported="false" />
         <activity
             android:name=".Authentications.LoginActivity"

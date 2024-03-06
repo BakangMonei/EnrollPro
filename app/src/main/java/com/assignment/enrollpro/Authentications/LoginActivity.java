@@ -2,10 +2,13 @@ package com.assignment.enrollpro.Authentications;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.*;
 
 import com.assignment.enrollpro.R;
+import com.assignment.enrollpro.Screens.LectureActivity;
 
 public class LoginActivity extends AppCompatActivity {
     private CheckBox rememberMeCheckBox;
@@ -26,6 +29,17 @@ public class LoginActivity extends AppCompatActivity {
         loginBtn = (Button) findViewById(R.id.loginBtn);
         forgotPasswordTextView = (TextView) findViewById(R.id.forgotPasswordTextView);
 
+        loginBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToLecture(v);
+            }
+        });
 
+    }
+
+    public void goToLecture(View view) {
+        Intent intent = new Intent(LoginActivity.this, LectureActivity.class);
+        startActivity(intent);
     }
 }

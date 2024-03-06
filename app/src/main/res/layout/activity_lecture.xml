@@ -109,7 +109,7 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView">
 
         <ImageView
-            android:id="@+id/itemsPurchasedImageView"
+            android:id="@+id/bookExamImageView"
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:src="@drawable/baseline_library_books_24"
@@ -117,17 +117,17 @@
             tools:layout_editor_absoluteY="212dp" />
 
         <TextView
-            android:id="@+id/itemsPurchasedTextView"
+            android:id="@+id/bookExamTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:text="Book Student Exam"
             android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@+id/itemsPurchasedImageView"
+            app:layout_constraintEnd_toEndOf="@+id/bookExamImageView"
             app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/itemsPurchasedImageView"
-            app:layout_constraintTop_toBottomOf="@+id/itemsPurchasedImageView" />
+            app:layout_constraintStart_toStartOf="@+id/bookExamImageView"
+            app:layout_constraintTop_toBottomOf="@+id/bookExamImageView" />
     </LinearLayout>
 
     <LinearLayout
