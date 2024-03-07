@@ -44,6 +44,7 @@
     <color name="figma_red">#EF3651</color>
     <color name="figma_dark_gray">#1E1F28</color>
     <color name="figma_dark_grey">#2A2C36</color>
+    <color name="soft_black">#0e1111</color>
     <color name="border_grey">#757575</color>
     <color name="figma_dark_orange">#FF3E3E</color>
     <color name="figma_orange">#FF2424</color>

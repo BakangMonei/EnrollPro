@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <style name="Theme.EnrollPro" parent="Theme.Design.Light.NoActionBar" />
+    <style name="Theme.EnrollPro" parent="Theme.Material3.DayNight.NoActionBar" />
 
     <style name="Theme.EnrollPro.NoActionBar">
         <item name="windowActionBar">false</item>

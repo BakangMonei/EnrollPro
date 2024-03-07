@@ -1,31 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:padding="10dp"
     tools:ignore="MissingConstraints"
-    android:layout_height="match_parent"
     android:background="@color/black"
     tools:context=".Activities.BookExamActivity">
 
-
-    <Button
-        android:id="@+id/viewExamsBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="60dp"
-        android:layout_marginEnd="80dp"
-        android:text="View Exams"
-        android:background="@drawable/login_btn"
-        android:fontFamily="@font/forumregular"
-        android:textSize="15sp"
-        android:textStyle="bold"
-        android:textAlignment="center"
-        android:textColor="@color/white"
-        app:layout_constraintEnd_toEndOf="@+id/dateAndTimeEditText"
-        app:layout_constraintTop_toBottomOf="@+id/dateAndTimeEditText" />
 
     <TextView
         android:id="@+id/textView4"
@@ -45,7 +29,7 @@
         android:id="@+id/moduleLeaderEmailTxt"
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:layout_marginTop="36dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/login_forms"
         android:ems="10"
         android:hint="Module Leader Email"
@@ -243,4 +227,19 @@
         app:layout_constraintStart_toStartOf="@+id/dateAndTimeEditText"
         app:layout_constraintTop_toBottomOf="@+id/dateAndTimeEditText" />
 
+    <Button
+        android:id="@+id/viewExamsBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="60dp"
+        android:layout_marginEnd="80dp"
+        android:text="View Exams"
+        android:background="@drawable/login_btn"
+        android:fontFamily="@font/forumregular"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        app:layout_constraintEnd_toEndOf="@+id/dateAndTimeEditText"
+        app:layout_constraintTop_toBottomOf="@+id/dateAndTimeEditText" />
 </androidx.constraintlayout.widget.ConstraintLayout>

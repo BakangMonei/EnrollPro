@@ -1,0 +1,19 @@
+<!-- activity_display_details.xml -->
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".Activities.DeletedBookingExamActivity"
+    android:layout_height="match_parent">
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerViewDeleted"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="8dp"
+        android:clipToPadding="false"
+        android:clipChildren="false"
+        android:background="@android:color/white"
+        android:scrollbars="vertical"
+        android:overScrollMode="never" />
+
+</RelativeLayout>
