@@ -1,23 +1,21 @@
 package com.assignment.enrollpro.Model;
 
 public class BookExam {
-    private String moduleLeaderEmail, moduleLeader, studentEmail, studentIDNumber, firstName, lastName, phoneNumber, examRoom, Faculty, moduleName, dateTime;
+    private String moduleLeaderEmail, moduleLeaderName, studentEmail, studentIDNumber, firstName, lastName,
+            phoneNumber, examRoom, faculty, moduleName, dateAndTime;
 
-    public BookExam(String moduleLeaderEmail, String moduleLeader, String studentEmail, String studentIDNumber, String firstName, String lastName, String phoneNumber, String examRoom, String Faculty, String moduleName, String dateTime) {
+    public BookExam(String moduleLeaderEmail, String moduleLeaderName, String studentEmail, String studentIDNumber, String firstName, String lastName, String phoneNumber, String examRoom, String faculty, String moduleName, String dateAndTime) {
         this.moduleLeaderEmail = moduleLeaderEmail;
-        this.moduleLeader = moduleLeader;
+        this.moduleLeaderName = moduleLeaderName;
         this.studentEmail = studentEmail;
         this.studentIDNumber = studentIDNumber;
         this.firstName = firstName;
         this.lastName = lastName;
         this.phoneNumber = phoneNumber;
         this.examRoom = examRoom;
-        this.Faculty = Faculty;
+        this.faculty = faculty;
         this.moduleName = moduleName;
-        this.dateTime = dateTime;
-    }
-
-    public BookExam(){
+        this.dateAndTime = dateAndTime;
     }
 
     public String getModuleLeaderEmail() {
@@ -28,12 +26,12 @@ public class BookExam {
         this.moduleLeaderEmail = moduleLeaderEmail;
     }
 
-    public String getModuleLeader() {
-        return moduleLeader;
+    public String getModuleLeaderName() {
+        return moduleLeaderName;
     }
 
-    public void setModuleLeader(String moduleLeader) {
-        this.moduleLeader = moduleLeader;
+    public void setModuleLeaderName(String moduleLeaderName) {
+        this.moduleLeaderName = moduleLeaderName;
     }
 
     public String getStudentEmail() {
@@ -85,11 +83,11 @@ public class BookExam {
     }
 
     public String getFaculty() {
-        return Faculty;
+        return faculty;
     }
 
     public void setFaculty(String faculty) {
-        Faculty = faculty;
+        this.faculty = faculty;
     }
 
     public String getModuleName() {
@@ -100,11 +98,11 @@ public class BookExam {
         this.moduleName = moduleName;
     }
 
-    public String getDateTime() {
-        return dateTime;
+    public String getDateAndTime() {
+        return dateAndTime;
     }
 
-    public void setDateTime(String dateTime) {
-        this.dateTime = dateTime;
+    public void setDateAndTime(String dateAndTime) {
+        this.dateAndTime = dateAndTime;
     }
 }
