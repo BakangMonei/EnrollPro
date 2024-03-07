@@ -1,8 +1,11 @@
 package com.assignment.enrollpro.Activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,8 +18,19 @@ import android.widget.TimePicker;
 import com.assignment.enrollpro.Model.BookExam;
 import com.assignment.enrollpro.R;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.dynamiclinks.DynamicLink;
+import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
+import com.google.firebase.dynamiclinks.ShortDynamicLink;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
 
+import java.io.ByteArrayOutputStream;
 import java.util.Calendar;
+import java.util.UUID;
 
 public class BookExamActivity extends AppCompatActivity {
 
@@ -26,12 +40,14 @@ public class BookExamActivity extends AppCompatActivity {
     private Button sendQRBtn, viewExamsBtn;
 
     private FirebaseFirestore db;
+    private FirebaseStorage storage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_book_exam);
 
         db = FirebaseFirestore.getInstance();
+        storage = FirebaseStorage.getInstance();
 
         moduleLeaderEmailTxt = (EditText) findViewById(R.id.moduleLeaderEmailTxt);
         moduleLeaderNameTxt = (EditText) findViewById(R.id.moduleLeaderNameTxt);
@@ -63,43 +79,6 @@ public class BookExamActivity extends AppCompatActivity {
             }
         });
 
-    }
-
-    private void sendDataToFirestore() {
-        String moduleLeaderEmail = moduleLeaderEmailTxt.getText().toString();
-        String moduleLeaderName = moduleLeaderNameTxt.getText().toString();
-        String studentEmail = studentEmailTxt.getText().toString();
-        String studentIDNumber = studentIDNumberTxt.getText().toString();
-        String firstName = firstNameTxt.getText().toString();
-        String lastName = lastNameTxt.getText().toString();
-        String phoneNumber = phoneNumberTxt.getText().toString();
-        String examRoom = examRoomTxt.getText().toString();
-        String faculty = facultyTxt.getText().toString();
-        String moduleName = moduleNameTxt.getText().toString();
-        String dateAndTime = dateAndTimeEditText.getText().toString();
-
-        // Create a new document with a generated ID
-        // Create a new document with a generated ID
-        db.collection("exams")
-                .add(new BookExam(moduleLeaderEmail, moduleLeaderName, studentEmail, studentIDNumber, firstName, lastName,
-                        phoneNumber, examRoom, faculty, moduleName, dateAndTime))
-                .addOnSuccessListener(documentReference -> {
-                    // On success, get the generated document ID
-                    String documentId = documentReference.getId();
-
-                    // Generate the URL using the document ID
-                    String url = "https://enrollpro-d4377-default-rtdb.firebaseio.com?id=" + documentId;
-
-                    // Send the URL as a text message
-                    sendTextMessage(phoneNumber, url);
-
-                    Toast.makeText(BookExamActivity.this, "Data sent successfully", Toast.LENGTH_SHORT).show();
-                    // Clear EditText fields after successful submission
-                    clearEditTextFields();
-                })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(BookExamActivity.this, "Failed to send data", Toast.LENGTH_SHORT).show();
-                });
     }
 
     private void clearEditTextFields() {
@@ -151,37 +130,103 @@ public class BookExamActivity extends AppCompatActivity {
         dateAndTimeEditText.setText(calendar.getTime().toString());
     }
 
-    // Function to generate a link and send as SMS
-    private void sendTextMessage(String phoneNumber, String message) {
-        // Use Android's built-in SMS functionality to send the message
-        Intent intent = new Intent(Intent.ACTION_SENDTO);
-        intent.setData(Uri.parse("smsto:" + phoneNumber));
-        intent.putExtra("sms_body", message);
-        startActivity(intent);
+
+    private void sendDataToFirestore() {
+        String moduleLeaderEmail = moduleLeaderEmailTxt.getText().toString();
+        String moduleLeaderName = moduleLeaderNameTxt.getText().toString();
+        String studentEmail = studentEmailTxt.getText().toString();
+        String studentIDNumber = studentIDNumberTxt.getText().toString();
+        String firstName = firstNameTxt.getText().toString();
+        String lastName = lastNameTxt.getText().toString();
+        String phoneNumber = phoneNumberTxt.getText().toString();
+        String examRoom = examRoomTxt.getText().toString();
+        String faculty = facultyTxt.getText().toString();
+        String moduleName = moduleNameTxt.getText().toString();
+        String dateAndTime = dateAndTimeEditText.getText().toString();
+
+        // Generate QR Code
+        String qrCodeValue = UUID.randomUUID().toString(); // Generate a random unique value
+        Bitmap qrBitmap = generateQRCode(qrCodeValue);
+
+        // Upload QR Code to Firebase Storage
+        uploadQRCodeToStorage(qrBitmap, qrCodeValue);
+
+        // Send SMS
+        sendSMS(phoneNumber, "Here is the link to your QR Code: <link_to_qr_code>");
+
+        // Create a new document with a generated ID
+        db.collection("exams")
+                .add(new BookExam(moduleLeaderEmail, moduleLeaderName, studentEmail, studentIDNumber, firstName, lastName,
+                        phoneNumber, examRoom, faculty, moduleName, dateAndTime, qrCodeValue))
+                .addOnSuccessListener(documentReference -> {
+                    // On success, get the generated document ID
+                    String documentId = documentReference.getId();
+                    Toast.makeText(BookExamActivity.this, "Data sent successfully", Toast.LENGTH_SHORT).show();
+                    // Clear EditText fields after successful submission
+                    clearEditTextFields();
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(BookExamActivity.this, "Failed to send data", Toast.LENGTH_SHORT).show();
+                });
+    }
+
+    private Bitmap generateQRCode(String value) {
+        // Append the data to the URL
+        String url = "https://yourdomain.com/yourpath/" + value;
+
+        QRCodeWriter qrCodeWriter = new QRCodeWriter();
+        try {
+            BitMatrix bitMatrix = qrCodeWriter.encode(url, BarcodeFormat.QR_CODE, 512, 512);
+            int width = bitMatrix.getWidth();
+            int height = bitMatrix.getHeight();
+            Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+            for (int x = 0; x < width; x++) {
+                for (int y = 0; y < height; y++) {
+                    bmp.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
+                }
+            }
+            return bmp;
+        } catch (WriterException e) {
+            Log.e("QRCode", "Error generating QR code: " + e.getMessage());
+            return null;
+        }
     }
 
 
-}
+    private void uploadQRCodeToStorage(Bitmap bitmap, String qrCodeValue) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] data = baos.toByteArray();
 
-//// Import the functions you need from the SDKs you need
-//import { initializeApp } from "firebase/app";
-//        import { getAnalytics } from "firebase/analytics";
-//// TODO: Add SDKs for Firebase products that you want to use
-//// https://firebase.google.com/docs/web/setup#available-libraries
-//
-//// Your web app's Firebase configuration
-//// For Firebase JS SDK v7.20.0 and later, measurementId is optional
-//        const firebaseConfig = {
-//        apiKey: "AIzaSyBd-1L_b5TEE_PSuO4unXb3sLUNLybFeZ4",
-//        authDomain: "enrollpro-d4377.firebaseapp.com",
-//        databaseURL: "https://enrollpro-d4377-default-rtdb.firebaseio.com",
-//        projectId: "enrollpro-d4377",
-//        storageBucket: "enrollpro-d4377.appspot.com",
-//        messagingSenderId: "540942520449",
-//        appId: "1:540942520449:web:75fccae9773248fa0e7d80",
-//        measurementId: "G-K401522SLK"
-//        };
-//
-//// Initialize Firebase
-//        const app = initializeApp(firebaseConfig);
-//        const analytics = getAnalytics(app);
+        // Set the path of where the image will be stored in Firebase Storage
+        String path = "qr_codes/" + qrCodeValue + ".png";
+
+        // Get a reference to the storage location and upload the image
+        StorageReference qrCodeRef = storage.getReference().child(path);
+        qrCodeRef.putBytes(data)
+                .addOnSuccessListener(taskSnapshot -> {
+                    // Image uploaded successfully
+                    Log.d("UploadQRCode", "QR code uploaded successfully");
+                })
+                .addOnFailureListener(exception -> {
+                    // Handle unsuccessful uploads
+                    Log.e("UploadQRCode", "Failed to upload QR code: " + exception.getMessage());
+                });
+    }
+
+    private void sendSMS(String phoneNumber, String message) {
+        try {
+            Intent smsIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + phoneNumber));
+            smsIntent.putExtra("sms_body", message);
+            startActivity(smsIntent);
+        } catch (Exception e) {
+            Toast.makeText(this, "Failed to send SMS", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+
+
+
+
+}
