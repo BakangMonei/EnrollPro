@@ -9,6 +9,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.assignment.enrollpro.Activities.BookExamActivity;
+import com.assignment.enrollpro.Activities.ViewBookingExamActivity;
 import com.assignment.enrollpro.R;
 
 public class LectureActivity extends AppCompatActivity {
@@ -30,11 +31,38 @@ public class LectureActivity extends AppCompatActivity {
             }
         });
 
+        bookExamTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToBookExam(v);
+            }
+        });
+
+        itemsViewImageView = (ImageView) findViewById(R.id.itemsViewImageView);
+        itemsViewTextView = (TextView) findViewById(R.id.itemsViewTextView);
+        itemsViewImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToViewBooking(v);
+            }
+        });
+        itemsViewTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToViewBooking(v);
+            }
+        });
+
 
     }
 
     public void goToBookExam(View view) {
         Intent intent = new Intent(LectureActivity.this, BookExamActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToViewBooking(View view) {
+        Intent intent = new Intent(LectureActivity.this, ViewBookingExamActivity.class);
         startActivity(intent);
     }
 }
