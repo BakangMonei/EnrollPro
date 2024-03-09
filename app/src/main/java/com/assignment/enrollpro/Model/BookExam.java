@@ -1,10 +1,11 @@
 package com.assignment.enrollpro.Model;
 
 public class BookExam {
-    private String moduleLeaderEmail, moduleLeaderName, studentEmail, studentIDNumber, firstName, lastName,
+    private String documentId, Id, moduleLeaderEmail, moduleLeaderName, studentEmail, studentIDNumber, firstName, lastName,
             phoneNumber, examRoom, faculty, moduleName, dateAndTime, qrCodeValue;
 
-    public BookExam(String moduleLeaderEmail, String moduleLeaderName, String studentEmail, String studentIDNumber, String firstName, String lastName, String phoneNumber, String examRoom, String faculty, String moduleName, String dateAndTime, String qrCodeValue) {
+    public BookExam(String id, String moduleLeaderEmail, String moduleLeaderName, String studentEmail, String studentIDNumber, String firstName, String lastName, String phoneNumber, String examRoom, String faculty, String moduleName, String dateAndTime) {
+        Id = id;
         this.moduleLeaderEmail = moduleLeaderEmail;
         this.moduleLeaderName = moduleLeaderName;
         this.studentEmail = studentEmail;
@@ -19,8 +20,26 @@ public class BookExam {
         this.qrCodeValue = qrCodeValue;
     }
 
-    public BookExam() {
+
+
+    public BookExam(){
         super();
+    }
+
+    public String getDocumentId() {
+        return documentId;
+    }
+
+    public void setDocumentId(String documentId) {
+        this.documentId = documentId;
+    }
+
+    public String getId() {
+        return Id;
+    }
+
+    public void setId(String id) {
+        Id = id;
     }
 
     public String getModuleLeaderEmail() {
@@ -110,10 +129,12 @@ public class BookExam {
     public void setDateAndTime(String dateAndTime) {
         this.dateAndTime = dateAndTime;
     }
-    public void setQrCodeValue(String qrCodeValue) {
-        this.qrCodeValue = qrCodeValue;
-    }
+
     public String getQrCodeValue() {
         return qrCodeValue;
+    }
+
+    public void setQrCodeValue(String qrCodeValue) {
+        this.qrCodeValue = qrCodeValue;
     }
 }

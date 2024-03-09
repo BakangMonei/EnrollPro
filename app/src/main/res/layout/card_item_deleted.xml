@@ -1,94 +1,79 @@
-<?xml version="1.0" encoding="utf-8"?><!-- @Author: Monei Bakang Mothuti -->
+<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="10dp"
+    tools:ignore="HardcodedText"
     android:background="@color/black"
-    android:orientation="vertical"
-    android:padding="25dp"
-    tools:ignore="HardcodedText">
-
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:fontFamily="@font/forumregular"
-        android:text="View Deleted"
-        android:textColor="@color/white"
-        android:textSize="30sp"
-        android:textStyle="bold" />
-
+    android:orientation="vertical">
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+
         android:layout_margin="5dp"
         android:backgroundTint="@color/soft_black"
         app:strokeWidth="1dp"
         app:strokeColor="@color/figma_dark_grey"
         app:cardCornerRadius="5dp">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="20dp">
-
+            android:padding="10dp"
+            android:orientation="vertical">
 
             <TextView
-                android:id="@+id/deletedStudentEmail"
+                android:id="@+id/viewStudentEmail"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
                 android:background="@drawable/login_forms"
-                android:fontFamily="@font/forumregular"
                 android:hint="Student Email"
-                android:padding="10dp"
+                android:padding="15dp"
+                android:fontFamily="@font/forumregular"
+                android:textStyle="bold"
+                android:textSize="20sp"
                 android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:textSize="25sp"
-                android:textStyle="bold" />
-
+                android:textColorHint="@color/white"/>
             <TextView
-                android:id="@+id/deletedStudentID"
+                android:id="@+id/viewStudentID"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:layout_marginTop="10dp"
                 android:background="@drawable/login_forms"
+                android:hint="StudentID"
+                android:layout_marginTop="7dp"
+                android:padding="15dp"
                 android:fontFamily="@font/forumregular"
-                android:hint="Student ID"
-                android:padding="10dp"
+                android:textStyle="bold"
+                android:textSize="20sp"
                 android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:textSize="25sp"
-                android:textStyle="bold" />
-
+                android:textColorHint="@color/white"/>
             <TextView
-                android:id="@+id/deletedDateTime"
+                android:id="@+id/viewStudentDate"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:layout_marginTop="10dp"
                 android:background="@drawable/login_forms"
+                android:hint="Date And Time"
+                android:layout_marginTop="7dp"
+                android:padding="15dp"
                 android:fontFamily="@font/forumregular"
-                android:hint="Date Time"
-                android:padding="10dp"
+                android:textStyle="bold"
+                android:textSize="20sp"
                 android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:textSize="25sp"
-                android:textStyle="bold" />
-
+                android:textColorHint="@color/white"/>
             <TextView
-                android:id="@+id/deletedModule"
+                android:id="@+id/viewModule"
                 android:layout_width="match_parent"
                 android:layout_height="55dp"
-                android:layout_marginTop="10dp"
                 android:background="@drawable/login_forms"
+                android:hint="View Module"
+                android:layout_marginTop="7dp"
+                android:padding="15dp"
                 android:fontFamily="@font/forumregular"
-                android:hint="Student Module"
-                android:padding="10dp"
+                android:textStyle="bold"
+                android:textSize="20sp"
                 android:textColor="@color/white"
-                android:textColorHint="@color/white"
-                android:textSize="25sp"
-                android:textStyle="bold" />
+                android:textColorHint="@color/white"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -98,24 +83,23 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:padding="3dp">
+                    android:padding="3dp"
+                    android:gravity="center">
 
                     <Button
                         android:id="@+id/restoreBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="3dp"
-                        android:layout_marginRight="200dp"
                         android:background="@drawable/card_btns_bg"
                         android:fontFamily="@font/poppinssemibold"
-                        android:text="RESTORE"
+                        android:layout_marginRight="200dp"
+                        android:text="Restore"
                         android:textAllCaps="false"
                         android:textColor="@color/white" />
-
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
     </com.google.android.material.card.MaterialCardView>
+
 
 </LinearLayout>

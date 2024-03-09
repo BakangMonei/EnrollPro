@@ -9,13 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.assignment.enrollpro.Activities.BookExamActivity;
+import com.assignment.enrollpro.Activities.DeletedBookingExamActivity;
 import com.assignment.enrollpro.Activities.ViewBookingExamActivity;
 import com.assignment.enrollpro.R;
 
 public class LectureActivity extends AppCompatActivity {
 
-    private ImageView bookExamImageView, itemsUpdateImageView, itemsDeleteImageView, itemsViewImageView;
-    private TextView bookExamTextView, itemsUpdateTextView, itemsDeleteTextView, itemsViewTextView;
+    private ImageView bookExamImageView, itemsUpdateImageView, itemsDeletedImageView, itemsViewImageView;
+    private TextView bookExamTextView, itemsUpdateTextView, itemsDeletedTextView, itemsViewTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,20 @@ public class LectureActivity extends AppCompatActivity {
             }
         });
 
+        itemsDeletedImageView = (ImageView) findViewById(R.id.itemsDeletedImageView);
+        itemsDeletedTextView = (TextView) findViewById(R.id.itemsDeletedTextView);
+        itemsDeletedImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToDeletedBooking(v);
+            }
+        });
+        itemsDeletedTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToDeletedBooking(v);
+            }
+        });
 
     }
 
@@ -63,6 +78,11 @@ public class LectureActivity extends AppCompatActivity {
 
     public void goToViewBooking(View view) {
         Intent intent = new Intent(LectureActivity.this, ViewBookingExamActivity.class);
+        startActivity(intent);
+    }
+
+    public void goToDeletedBooking(View view) {
+        Intent intent = new Intent(LectureActivity.this, DeletedBookingExamActivity.class);
         startActivity(intent);
     }
 }

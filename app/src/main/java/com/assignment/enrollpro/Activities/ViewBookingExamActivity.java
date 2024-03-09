@@ -2,8 +2,10 @@ package com.assignment.enrollpro.Activities;
 
 import static android.content.ContentValues.TAG;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.assignment.enrollpro.Adapters.ViewBookingAdapter;
 import com.assignment.enrollpro.Model.BookExam;
 import com.assignment.enrollpro.R;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -25,6 +28,7 @@ import java.util.List;
 public class ViewBookingExamActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
+    private FloatingActionButton floatingActionButton;
     private ViewBookingAdapter adapter;
     private List<BookExam> bookings;
 
@@ -39,6 +43,11 @@ public class ViewBookingExamActivity extends AppCompatActivity {
         bookings = new ArrayList<>();
         adapter = new ViewBookingAdapter(bookings);
         recyclerView.setAdapter(adapter);
+
+        floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
+        floatingActionButton.setOnClickListener(view -> {
+            goToCreateBooking();
+        });
 
         // Fetch data from FireStore
         FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -55,5 +64,12 @@ public class ViewBookingExamActivity extends AppCompatActivity {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }
                 });
+    }
+
+    public void goToCreateBooking() {
+        // Go to the AddBookingActivity
+        Intent x = new Intent(ViewBookingExamActivity.this, BookExamActivity.class);
+        Toast.makeText(ViewBookingExamActivity.this, "Create a Booking", Toast.LENGTH_SHORT).show();
+        startActivity(x);
     }
 }
