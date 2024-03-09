@@ -172,6 +172,10 @@ public class BookExamActivity extends AppCompatActivity {
                     Toast.makeText(BookExamActivity.this, "Data sent successfully", Toast.LENGTH_SHORT).show();
                     // Clear EditText fields after successful submission
                     clearEditTextFields();
+
+                    // To immediately view the booking, navigate to the ViewBookingExamActivity
+                    Intent x = new Intent(BookExamActivity.this, ViewBookingExamActivity.class);
+                    startActivity(x);
                 })
                 .addOnFailureListener(e -> {
                     Toast.makeText(BookExamActivity.this, "Failed to send data", Toast.LENGTH_SHORT).show();

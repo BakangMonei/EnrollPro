@@ -1,0 +1,260 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/black"
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:ignore="HardcodedText">
+
+    <com.google.android.material.card.MaterialCardView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:backgroundTint="@color/soft_black"
+        app:cardCornerRadius="5dp"
+        app:strokeColor="@color/figma_dark_grey"
+        app:strokeWidth="1dp">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="10dp">
+
+
+                <EditText
+                    android:id="@+id/moduleLeaderEmailTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="1dp"
+                    android:background="@drawable/login_forms"
+                    android:ems="10"
+                    android:fontFamily="@font/forumregular"
+                    android:hint="Module Leader Email"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    app:layout_constraintHorizontal_bias="0.458" />
+
+                <EditText
+                    android:id="@+id/moduleLeaderNameTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/login_forms"
+                    android:ems="10"
+                    android:fontFamily="@font/forumregular"
+                    android:hint="Module-Leader Name"
+                    android:inputType="text"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    app:layout_constraintEnd_toEndOf="@+id/moduleLeaderEmailTxt"
+                    app:layout_constraintHorizontal_bias="0.458"
+                    app:layout_constraintStart_toStartOf="@+id/moduleLeaderEmailTxt"
+                    app:layout_constraintTop_toBottomOf="@+id/moduleLeaderEmailTxt" />
+
+                <EditText
+                    android:id="@+id/studentEmailTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/login_forms"
+                    android:ems="10"
+                    android:fontFamily="@font/forumregular"
+                    android:hint="Student Email"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    app:layout_constraintEnd_toEndOf="@+id/moduleLeaderNameTxt"
+                    app:layout_constraintHorizontal_bias="0.458"
+                    app:layout_constraintStart_toStartOf="@+id/moduleLeaderNameTxt"
+                    app:layout_constraintTop_toBottomOf="@+id/moduleLeaderNameTxt" />
+
+                <EditText
+                    android:id="@+id/studentIDNumberTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/login_forms"
+                    android:ems="10"
+                    android:fontFamily="@font/forumregular"
+                    android:hint="StudentID"
+                    android:inputType="text"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    app:layout_constraintEnd_toEndOf="@+id/studentEmailTxt"
+                    app:layout_constraintHorizontal_bias="0.458"
+                    app:layout_constraintStart_toStartOf="@+id/studentEmailTxt"
+                    app:layout_constraintTop_toBottomOf="@+id/studentEmailTxt" />
+
+                <EditText
+                    android:id="@+id/firstNameTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/login_forms"
+                    android:ems="10"
+                    android:fontFamily="@font/forumregular"
+                    android:hint="Student firstName"
+                    android:inputType="text"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    app:layout_constraintEnd_toEndOf="@+id/studentIDNumberTxt"
+                    app:layout_constraintHorizontal_bias="0.458"
+                    app:layout_constraintStart_toStartOf="@+id/studentIDNumberTxt"
+                    app:layout_constraintTop_toBottomOf="@+id/studentIDNumberTxt" />
+
+                <EditText
+                    android:id="@+id/lastNameTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/login_forms"
+                    android:ems="10"
+                    android:fontFamily="@font/forumregular"
+                    android:hint="Student Lastname"
+                    android:inputType="text"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    app:layout_constraintEnd_toEndOf="@+id/firstNameTxt"
+                    app:layout_constraintHorizontal_bias="0.458"
+                    app:layout_constraintStart_toStartOf="@+id/firstNameTxt"
+                    app:layout_constraintTop_toBottomOf="@+id/firstNameTxt" />
+
+                <EditText
+                    android:id="@+id/phoneNumberTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/login_forms"
+                    android:ems="10"
+                    android:fontFamily="@font/forumregular"
+                    android:hint="Student Phone Number"
+                    android:inputType="text"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    app:layout_constraintEnd_toEndOf="@+id/lastNameTxt"
+                    app:layout_constraintHorizontal_bias="0.458"
+                    app:layout_constraintStart_toStartOf="@+id/lastNameTxt"
+                    app:layout_constraintTop_toBottomOf="@+id/lastNameTxt" />
+
+                <EditText
+                    android:id="@+id/examRoomTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/login_forms"
+                    android:ems="10"
+                    android:fontFamily="@font/forumregular"
+                    android:hint="Exam Room And Table Number"
+                    android:inputType="text"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    app:layout_constraintEnd_toEndOf="@+id/phoneNumberTxt"
+                    app:layout_constraintHorizontal_bias="0.458"
+                    app:layout_constraintStart_toStartOf="@+id/phoneNumberTxt"
+                    app:layout_constraintTop_toBottomOf="@+id/phoneNumberTxt" />
+
+                <EditText
+                    android:id="@+id/facultyTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/login_forms"
+                    android:ems="10"
+                    android:fontFamily="@font/forumregular"
+                    android:hint="Faculty"
+                    android:inputType="text"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    app:layout_constraintEnd_toEndOf="@+id/examRoomTxt"
+                    app:layout_constraintHorizontal_bias="0.458"
+                    app:layout_constraintStart_toStartOf="@+id/examRoomTxt"
+                    app:layout_constraintTop_toBottomOf="@+id/examRoomTxt" />
+
+                <EditText
+                    android:id="@+id/moduleNameTxt"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/login_forms"
+                    android:ems="10"
+                    android:fontFamily="@font/forumregular"
+                    android:hint="Module Name"
+                    android:inputType="text"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    app:layout_constraintEnd_toEndOf="@+id/facultyTxt"
+                    app:layout_constraintHorizontal_bias="0.458"
+                    app:layout_constraintStart_toStartOf="@+id/facultyTxt"
+                    app:layout_constraintTop_toBottomOf="@+id/facultyTxt" />
+
+                <EditText
+                    android:id="@+id/dateAndTimeEditText"
+                    android:layout_width="match_parent"
+                    android:layout_height="55dp"
+                    android:layout_marginTop="5dp"
+                    android:background="@drawable/login_forms"
+                    android:clickable="true"
+                    android:drawableEnd="@drawable/baseline_access_time_24"
+                    android:drawablePadding="8dp"
+                    android:focusable="false"
+                    android:fontFamily="@font/forumregular"
+                    android:hint="Select Date and Time"
+                    android:padding="10dp"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/moduleNameTxt" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:padding="3dp">
+
+                        <Button
+                            android:id="@+id/updateBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/card_btns_bg"
+                            android:fontFamily="@font/poppinssemibold"
+                            android:layout_marginRight="50dp"
+                            android:text="Update"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white" />
+
+                        <Button
+                            android:id="@+id/deleteBtn"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:background="@drawable/card_btns_bg"
+                            android:fontFamily="@font/poppinssemibold"
+                            android:layout_marginLeft="50dp"
+                            android:text="Delete"
+                            android:textAllCaps="false"
+                            android:textColor="@color/white" />
+
+                    </LinearLayout>
+                </LinearLayout>
+
+
+            </LinearLayout>
+        </ScrollView>
+    </com.google.android.material.card.MaterialCardView>
+
+
+</LinearLayout>

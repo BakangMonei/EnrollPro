@@ -28,7 +28,7 @@ import java.util.List;
 public class ViewBookingExamActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
-    private FloatingActionButton floatingActionButton;
+    private FloatingActionButton floatingActionButton, printFloatingActionButton;
     private ViewBookingAdapter adapter;
     private List<BookExam> bookings;
 
@@ -47,6 +47,10 @@ public class ViewBookingExamActivity extends AppCompatActivity {
         floatingActionButton = (FloatingActionButton) findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(view -> {
             goToCreateBooking();
+        });
+        printFloatingActionButton = (FloatingActionButton) findViewById(R.id.printFloatingActionButton);
+        printFloatingActionButton.setOnClickListener(view -> {
+            Toast.makeText(ViewBookingExamActivity.this, "Print", Toast.LENGTH_SHORT).show();
         });
 
         // Fetch data from FireStore

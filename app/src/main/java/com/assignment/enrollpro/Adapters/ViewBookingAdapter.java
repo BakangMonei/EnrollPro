@@ -1,6 +1,7 @@
 package com.assignment.enrollpro.Adapters;
 
 
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.widget.Toast;
 
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.assignment.enrollpro.Activities.ViewBookingExamActivity;
 import com.assignment.enrollpro.Model.BookExam;
 import com.assignment.enrollpro.R;
 
@@ -76,9 +78,13 @@ public class ViewBookingAdapter extends RecyclerView.Adapter<ViewBookingAdapter.
             editStudentBtn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "Edit", Toast.LENGTH_SHORT).show();
+                    BookExam booking = bookings.get(getAdapterPosition());
+                    Intent intent = new Intent(v.getContext(), ViewBookingExamActivity.class);
+//                    intent.putExtra("booking", booking);
+                    v.getContext().startActivity(intent);
                 }
             });
+
         }
 
         public void bind(BookExam booking) {
