@@ -12,7 +12,12 @@ import com.assignment.enrollpro.Model.BookExam;
 import com.assignment.enrollpro.R;
 
 import java.util.List;
-
+/**
+ * @Author: One Kgarebe Lerole
+ * @Date: February 2024
+ * @Time: 10:00 am
+ * @Location: University Of Botswana, Gaborone, Botswana
+ */
 public class DeletedBookingAdapter extends RecyclerView.Adapter<DeletedBookingAdapter.ViewHolder> {
     private List<BookExam> bookings;
 

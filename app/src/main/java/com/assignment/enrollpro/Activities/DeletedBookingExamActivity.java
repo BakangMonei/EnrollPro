@@ -1,6 +1,8 @@
 package com.assignment.enrollpro.Activities;
-// This is where we view 'Deleted Records' and be able to restore them
-
+/*
+* This is where we view 'Deleted Records' and be able to restore them
+* It is not yet implemented, we should be able to RESTORE
+* */
 
 import static android.content.ContentValues.TAG;
 

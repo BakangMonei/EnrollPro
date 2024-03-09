@@ -1,5 +1,5 @@
 package com.assignment.enrollpro.Activities;
-
+// Booking Works Well
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
@@ -76,6 +76,14 @@ public class BookExamActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 sendDataToFirestore();
+            }
+        });
+
+        viewExamsBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent x = new Intent(BookExamActivity.this, ViewBookingExamActivity.class);
+                startActivity(x);
             }
         });
 

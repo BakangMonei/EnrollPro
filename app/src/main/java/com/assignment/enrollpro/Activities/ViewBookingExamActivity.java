@@ -1,5 +1,5 @@
 package com.assignment.enrollpro.Activities;
-
+// Left is to do the Edit & Delete
 import static android.content.ContentValues.TAG;
 
 import android.content.Intent;
