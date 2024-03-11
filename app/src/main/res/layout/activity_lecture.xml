@@ -122,7 +122,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:text="Book Student Exam"
+            android:text="Book Student \nExam"
+            android:textAlignment="center"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/bookExamImageView"
             app:layout_constraintHorizontal_bias="1.0"
@@ -157,7 +158,8 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:text="Edit Exam Bookings"
+            android:textAlignment="center"
+            android:text="Edit Exam \nBookings"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/itemsPurchasedImageView"
             app:layout_constraintHorizontal_bias="1.0"
@@ -230,6 +232,16 @@
 
     </LinearLayout>
 
+    <com.google.android.material.bottomnavigation.BottomNavigationView
+        android:id="@+id/bottom_navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/nav_bar_item_ctrl"
+
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:menu="@menu/bottom_navigation" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
