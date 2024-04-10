@@ -1,10 +1,11 @@
 package com.assignment.enrollpro.Activities;
-// Booking Works Well
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
+import android.telephony.SmsManager;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
@@ -13,7 +14,6 @@ import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
 import android.widget.DatePicker;
 import android.widget.TimePicker;
-
 
 import com.assignment.enrollpro.Model.BookExam;
 import com.assignment.enrollpro.R;
@@ -41,6 +41,7 @@ public class BookExamActivity extends AppCompatActivity {
 
     private FirebaseFirestore db;
     private FirebaseStorage storage;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,42 +50,29 @@ public class BookExamActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
 
-        moduleLeaderEmailTxt = (EditText) findViewById(R.id.moduleLeaderEmailTxt);
-        moduleLeaderNameTxt = (EditText) findViewById(R.id.moduleLeaderNameTxt);
-        studentEmailTxt = (EditText) findViewById(R.id.studentEmailTxt);
-        studentIDNumberTxt = (EditText) findViewById(R.id.studentIDNumberTxt);
-        firstNameTxt = (EditText) findViewById(R.id.firstNameTxt);
-        lastNameTxt = (EditText) findViewById(R.id.lastNameTxt);
-        phoneNumberTxt = (EditText) findViewById(R.id.phoneNumberTxt);
-        examRoomTxt = (EditText) findViewById(R.id.examRoomTxt);
-        facultyTxt = (EditText) findViewById(R.id.facultyTxt);
-        moduleNameTxt = (EditText) findViewById(R.id.moduleNameTxt);
-        dateAndTimeEditText = (EditText) findViewById(R.id.dateAndTimeEditText);
+        moduleLeaderEmailTxt = findViewById(R.id.moduleLeaderEmailTxt);
+        moduleLeaderNameTxt = findViewById(R.id.moduleLeaderNameTxt);
+        studentEmailTxt = findViewById(R.id.studentEmailTxt);
+        studentIDNumberTxt = findViewById(R.id.studentIDNumberTxt);
+        firstNameTxt = findViewById(R.id.firstNameTxt);
+        lastNameTxt = findViewById(R.id.lastNameTxt);
+        phoneNumberTxt = findViewById(R.id.phoneNumberTxt);
+        examRoomTxt = findViewById(R.id.examRoomTxt);
+        facultyTxt = findViewById(R.id.facultyTxt);
+        moduleNameTxt = findViewById(R.id.moduleNameTxt);
+        dateAndTimeEditText = findViewById(R.id.dateAndTimeEditText);
 
-        viewExamsBtn = (Button) findViewById(R.id.viewExamsBtn);
-        sendQRBtn = (Button) findViewById(R.id.sendQRBtn);
+        viewExamsBtn = findViewById(R.id.viewExamsBtn);
+        sendQRBtn = findViewById(R.id.sendQRBtn);
 
         // Set click listener to show Date Picker Dialog
-        dateAndTimeEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showDateTimePicker();
-            }
-        });
+        dateAndTimeEditText.setOnClickListener(v -> showDateTimePicker());
 
-        sendQRBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendDataToFirestore();
-            }
-        });
+        sendQRBtn.setOnClickListener(v -> sendDataToFirestore());
 
-        viewExamsBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent x = new Intent(BookExamActivity.this, ViewBookingExamActivity.class);
-                startActivity(x);
-            }
+        viewExamsBtn.setOnClickListener(v -> {
+            Intent x = new Intent(BookExamActivity.this, ViewBookingExamActivity.class);
+            startActivity(x);
         });
 
     }
@@ -112,22 +100,16 @@ public class BookExamActivity extends AppCompatActivity {
         int minute = currentDate.get(Calendar.MINUTE);
 
         // Date Picker Dialog
-        DatePickerDialog datePickerDialog = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
-            @Override
-            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                currentDate.set(year, monthOfYear, dayOfMonth);
-                // Time Picker Dialog
-                TimePickerDialog timePickerDialog = new TimePickerDialog(BookExamActivity.this, new TimePickerDialog.OnTimeSetListener() {
-                    @Override
-                    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-                        currentDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
-                        currentDate.set(Calendar.MINUTE, minute);
-                        // Update EditText with selected date and time
-                        updateDateTimeEditText(currentDate);
-                    }
-                }, hour, minute, true);
-                timePickerDialog.show();
-            }
+        DatePickerDialog datePickerDialog = new DatePickerDialog(this, (view, year1, monthOfYear, dayOfMonth) -> {
+            currentDate.set(year1, monthOfYear, dayOfMonth);
+            // Time Picker Dialog
+            TimePickerDialog timePickerDialog = new TimePickerDialog(BookExamActivity.this, (view1, hourOfDay, minute1) -> {
+                currentDate.set(Calendar.HOUR_OF_DAY, hourOfDay);
+                currentDate.set(Calendar.MINUTE, minute1);
+                // Update EditText with selected date and time
+                updateDateTimeEditText(currentDate);
+            }, hour, minute, true);
+            timePickerDialog.show();
         }, year, month, day);
         datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
         datePickerDialog.show();
@@ -154,13 +136,7 @@ public class BookExamActivity extends AppCompatActivity {
 
         // Generate QR Code
         String qrCodeValue = UUID.randomUUID().toString(); // Generate a random unique value
-        Bitmap qrBitmap = generateQRCode(qrCodeValue);
-
-        // Upload QR Code to Firebase Storage
-        uploadQRCodeToStorage(qrBitmap, qrCodeValue);
-
-        // Send SMS
-        sendSMS(phoneNumber, "Here is the link to your QR Code: <link_to_qr_code>");
+        generateAndSendQRCode(qrCodeValue, studentEmail, phoneNumber);
 
         // Create a new document with a generated ID
         db.collection("exams")
@@ -182,63 +158,75 @@ public class BookExamActivity extends AppCompatActivity {
                 });
     }
 
-    private Bitmap generateQRCode(String value) {
-        // Append the data to the URL
-        String url = "https://yourdomain.com/yourpath/" + value;
+    private void generateAndSendQRCode(String qrCodeValue, String studentEmail, String phoneNumber) {
+        // Generate QR code
+        Bitmap qrBitmap = generateQRCodeBitmap(qrCodeValue);
 
+        // Send QR code to student's email
+        sendEmailWithQRCode(qrBitmap, studentEmail);
+
+        // Generate dynamic link of QR code and send it as SMS text
+        generateDynamicLinkAndSendSMS(qrCodeValue, phoneNumber);
+    }
+
+    private Bitmap generateQRCodeBitmap(String qrCodeValue) {
         QRCodeWriter qrCodeWriter = new QRCodeWriter();
         try {
-            BitMatrix bitMatrix = qrCodeWriter.encode(url, BarcodeFormat.QR_CODE, 512, 512);
+            BitMatrix bitMatrix = qrCodeWriter.encode(qrCodeValue, BarcodeFormat.QR_CODE, 512, 512);
             int width = bitMatrix.getWidth();
             int height = bitMatrix.getHeight();
-            Bitmap bmp = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
+            Bitmap bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565);
             for (int x = 0; x < width; x++) {
                 for (int y = 0; y < height; y++) {
-                    bmp.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
+                    bitmap.setPixel(x, y, bitMatrix.get(x, y) ? Color.BLACK : Color.WHITE);
                 }
             }
-            return bmp;
+            return bitmap;
         } catch (WriterException e) {
-            Log.e("QRCode", "Error generating QR code: " + e.getMessage());
+            e.printStackTrace();
             return null;
         }
     }
 
+    private void sendEmailWithQRCode(Bitmap qrBitmap, String studentEmail) {
+        Intent emailIntent = new Intent(Intent.ACTION_SEND);
+        emailIntent.setType("image/*");
+        emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{studentEmail});
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "QR Code for " + studentEmail);
+        emailIntent.putExtra(Intent.EXTRA_TEXT, "Please find your QR code for exam booking attached.");
+        emailIntent.putExtra(Intent.EXTRA_STREAM, getImageUri(qrBitmap));
+        startActivity(Intent.createChooser(emailIntent, "Send Email"));
+    }
 
-    private void uploadQRCodeToStorage(Bitmap bitmap, String qrCodeValue) {
-        ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
-        byte[] data = baos.toByteArray();
-
-        // Set the path of where the image will be stored in Firebase Storage
-        String path = "qr_codes/" + qrCodeValue + ".png";
-
-        // Get a reference to the storage location and upload the image
-        StorageReference qrCodeRef = storage.getReference().child(path);
-        qrCodeRef.putBytes(data)
-                .addOnSuccessListener(taskSnapshot -> {
-                    // Image uploaded successfully
-                    Log.d("UploadQRCode", "QR code uploaded successfully");
-                })
-                .addOnFailureListener(exception -> {
-                    // Handle unsuccessful uploads
-                    Log.e("UploadQRCode", "Failed to upload QR code: " + exception.getMessage());
+    private void generateDynamicLinkAndSendSMS(String qrCodeValue, String phoneNumber) {
+        FirebaseDynamicLinks.getInstance().createDynamicLink()
+                .setLink(Uri.parse("https://enrollpro.page.link/?qrCodeValue=" + qrCodeValue))
+                .setDomainUriPrefix("https://enrollpro.page.link")
+                .buildShortDynamicLink(ShortDynamicLink.Suffix.SHORT)
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        Uri shortLink = task.getResult().getShortLink();
+                        String smsMessage = "Your exam QR code: " + shortLink.toString();
+                        sendSMS(phoneNumber, smsMessage);
+                    }
                 });
+    }
+
+    private Uri getImageUri(Bitmap bitmap) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(getContentResolver(), bitmap, "QR_Code", null);
+        return Uri.parse(path);
     }
 
     private void sendSMS(String phoneNumber, String message) {
         try {
-            Intent smsIntent = new Intent(Intent.ACTION_SENDTO, Uri.parse("smsto:" + phoneNumber));
-            smsIntent.putExtra("sms_body", message);
-            startActivity(smsIntent);
+            SmsManager smsManager = SmsManager.getDefault();
+            smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+            Toast.makeText(this, "SMS sent successfully", Toast.LENGTH_SHORT).show();
         } catch (Exception e) {
             Toast.makeText(this, "Failed to send SMS", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
     }
-
-
-
-
-
 }

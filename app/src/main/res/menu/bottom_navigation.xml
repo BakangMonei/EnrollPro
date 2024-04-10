@@ -18,4 +18,9 @@
         android:icon="@drawable/settingss"
         android:title="Settings" />
 
+    <item
+        android:id="@+id/nav_qrScanner"
+        android:icon="@drawable/baseline_qr_code_scanner_24"
+        android:title="QR Scanner" />
+
 </menu>
