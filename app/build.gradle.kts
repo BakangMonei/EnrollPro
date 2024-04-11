@@ -72,4 +72,5 @@ dependencies {
     /*Maps*/
 
     implementation ("com.journeyapps:zxing-android-embedded:4.1.0")
+//    implementation ("com.opencsv:opencsv:5.9")
 }
