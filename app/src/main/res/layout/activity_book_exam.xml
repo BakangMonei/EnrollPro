@@ -27,6 +27,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <!-- Module Leader Email Spinner -->
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/moduleLeaderEmailTxt"
             android:layout_width="match_parent"
@@ -39,6 +40,7 @@
             app:layout_constraintStart_toStartOf="@+id/textView4"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
+        <!-- Module Leader FirstName + Lastname TextView-->
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/moduleLeaderNameTxt"
             android:layout_width="match_parent"
@@ -57,6 +59,7 @@
             app:layout_constraintStart_toStartOf="@+id/moduleLeaderEmailTxt"
             app:layout_constraintTop_toBottomOf="@+id/moduleLeaderEmailTxt" />
 
+        <!-- Student Email Spinner-->
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/studentEmailTxt"
             android:layout_width="match_parent"
@@ -146,6 +149,8 @@
             app:layout_constraintStart_toStartOf="@+id/lastNameTxt"
             app:layout_constraintTop_toBottomOf="@+id/lastNameTxt" />
 
+
+        <!-- Exam Room Spinner -->
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/examRoomTxt"
             android:layout_width="match_parent"
@@ -163,49 +168,27 @@
             app:layout_constraintStart_toStartOf="@+id/phoneNumberTxt"
             app:layout_constraintTop_toBottomOf="@+id/phoneNumberTxt" />
 
-<!--        <androidx.appcompat.widget.AppCompatSpinner-->
-<!--            android:id="@+id/facultyTxt"-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="55dp"-->
-<!--            android:layout_marginTop="5dp"-->
-<!--            android:background="@drawable/login_forms"-->
-<!--            android:ems="10"-->
-<!--            android:fontFamily="@font/forumregular"-->
-<!--            android:hint="Faculty"-->
-<!--            android:inputType="text"-->
-<!--            android:textColor="@color/white"-->
-<!--            android:textColorHint="@color/white"-->
-<!--            app:layout_constraintEnd_toEndOf="@+id/examRoomTxt"-->
-<!--            app:layout_constraintHorizontal_bias="0.458"-->
-<!--            app:layout_constraintStart_toStartOf="@+id/examRoomTxt"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/examRoomTxt" />-->
-
-        <com.google.android.material.textfield.TextInputEditText
+        <!-- Faculty Spinner -->
+        <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/facultyTxt"
+            android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/login_forms"
             android:ems="10"
             android:fontFamily="@font/forumregular"
-            android:hint="Select an option"
+            android:hint="Faculty"
+            android:inputType="text"
+            android:textColor="@color/white"
+            android:textColorHint="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/examRoomTxt"
             app:layout_constraintHorizontal_bias="0.458"
             app:layout_constraintStart_toStartOf="@+id/examRoomTxt"
-            app:layout_constraintTop_toBottomOf="@+id/examRoomTxt"
-            >
+            app:layout_constraintTop_toBottomOf="@+id/examRoomTxt" />
 
-            <com.google.android.material.textview.MaterialTextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text=""/>
 
-            <androidx.appcompat.widget.AppCompatSpinner
-                android:id="@+id/facultyTxt1"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
 
-        </com.google.android.material.textfield.TextInputEditText>
-
+        <!-- Module Name Spinner -->
         <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/moduleNameTxt"
             android:layout_width="match_parent"

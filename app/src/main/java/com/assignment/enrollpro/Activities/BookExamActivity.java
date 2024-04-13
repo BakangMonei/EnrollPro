@@ -1,32 +1,40 @@
 package com.assignment.enrollpro.Activities;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.Color;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.telephony.SmsManager;
 import android.widget.*;
 import androidx.appcompat.app.AppCompatActivity;
 import android.app.DatePickerDialog;
 import android.app.TimePickerDialog;
-
-import com.assignment.enrollpro.Model.BookExam;
 import com.assignment.enrollpro.R;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.dynamiclinks.FirebaseDynamicLinks;
-import com.google.firebase.dynamiclinks.ShortDynamicLink;
-import com.google.zxing.BarcodeFormat;
-import com.google.zxing.WriterException;
-import com.google.zxing.common.BitMatrix;
-import com.google.zxing.qrcode.QRCodeWriter;
-
-import java.io.ByteArrayOutputStream;
+import com.google.firebase.storage.FirebaseStorage;;
 import java.util.Calendar;
-import java.util.UUID;
 
 public class BookExamActivity extends AppCompatActivity {
+
+    // Lecture
+    private Spinner moduleLeaderEmailTxt;
+    private TextView moduleLeaderNameTxt;
+    /***********************************/
+
+    // Student
+    private Spinner studentEmailTxt;
+    private TextView studentIDNumberTxt, firstNameTxt, lastNameTxt, phoneNumberTxt;
+    /***********************************/
+
+    // Exam Room Spinner
+    private Spinner examRoomTxt;
+    /***********************************/
+
+    // Faculty Spinner
+    private Spinner facultyTxt;
+    /***********************************/
+
+
+    // Module Spinner
+    private Spinner moduleNameTxt;
+
+
 
     private EditText dateAndTimeEditText;
     Button sendQRBtn, viewExamsBtn;
