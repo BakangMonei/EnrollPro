@@ -28,7 +28,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <!-- Module Leader Email Spinner -->
-        <androidx.appcompat.widget.AppCompatSpinner
+        <Spinner
             android:id="@+id/moduleLeaderEmailTxt"
             android:layout_width="match_parent"
             android:layout_height="55dp"
@@ -60,18 +60,22 @@
             app:layout_constraintTop_toBottomOf="@+id/moduleLeaderEmailTxt" />
 
         <!-- Student Email Spinner-->
-        <androidx.appcompat.widget.AppCompatSpinner
+        <Spinner
             android:id="@+id/studentEmailTxt"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="5dp"
-            android:background="@drawable/login_forms"
             android:ems="10"
             android:fontFamily="@font/forumregular"
-            android:hint="Student Email"
             android:inputType="textEmailAddress"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
+            android:background="@android:drawable/btn_dropdown"
+            android:padding="8dp"
+            android:state_pressed="true"
+            android:clipToOutline="true"
+            android:spinnerMode="dropdown"
+            android:hint="Select Student Email"
             app:layout_constraintEnd_toEndOf="@+id/moduleLeaderNameTxt"
             app:layout_constraintHorizontal_bias="0.458"
             app:layout_constraintStart_toStartOf="@+id/moduleLeaderNameTxt"
@@ -151,7 +155,7 @@
 
 
         <!-- Exam Room Spinner -->
-        <androidx.appcompat.widget.AppCompatSpinner
+        <Spinner
             android:id="@+id/examRoomTxt"
             android:layout_width="match_parent"
             android:layout_height="55dp"
@@ -169,7 +173,7 @@
             app:layout_constraintTop_toBottomOf="@+id/phoneNumberTxt" />
 
         <!-- Faculty Spinner -->
-        <androidx.appcompat.widget.AppCompatSpinner
+        <Spinner
             android:id="@+id/facultyTxt"
             android:layout_width="match_parent"
             android:layout_height="55dp"
@@ -189,7 +193,7 @@
 
 
         <!-- Module Name Spinner -->
-        <androidx.appcompat.widget.AppCompatSpinner
+        <Spinner
             android:id="@+id/moduleNameTxt"
             android:layout_width="match_parent"
             android:layout_height="55dp"
