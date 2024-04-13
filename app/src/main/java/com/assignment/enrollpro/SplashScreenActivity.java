@@ -1,5 +1,8 @@
 package com.assignment.enrollpro;
 
+// Splash Screen
+
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;

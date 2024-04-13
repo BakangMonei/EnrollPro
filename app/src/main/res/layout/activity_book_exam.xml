@@ -27,33 +27,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/moduleLeaderEmailTxt"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="1dp"
             android:background="@drawable/login_forms"
-            android:ems="10"
             android:fontFamily="@font/forumregular"
-            android:hint="Module Leader Email"
-            android:inputType="textEmailAddress"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/textView4"
             app:layout_constraintHorizontal_bias="0.458"
             app:layout_constraintStart_toStartOf="@+id/textView4"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-        <EditText
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/moduleLeaderNameTxt"
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/login_forms"
             android:ems="10"
+            android:gravity="center|left"
+            android:textSize="20sp"
             android:fontFamily="@font/forumregular"
             android:hint="Module-Leader Name"
-            android:inputType="text"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/moduleLeaderEmailTxt"
@@ -61,7 +57,7 @@
             app:layout_constraintStart_toStartOf="@+id/moduleLeaderEmailTxt"
             app:layout_constraintTop_toBottomOf="@+id/moduleLeaderEmailTxt" />
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/studentEmailTxt"
             android:layout_width="match_parent"
             android:layout_height="55dp"
@@ -78,7 +74,7 @@
             app:layout_constraintStart_toStartOf="@+id/moduleLeaderNameTxt"
             app:layout_constraintTop_toBottomOf="@+id/moduleLeaderNameTxt" />
 
-        <EditText
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/studentIDNumberTxt"
             android:layout_width="match_parent"
             android:layout_height="55dp"
@@ -87,7 +83,8 @@
             android:ems="10"
             android:fontFamily="@font/forumregular"
             android:hint="StudentID"
-            android:inputType="text"
+            android:gravity="center|left"
+            android:textSize="20sp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/studentEmailTxt"
@@ -95,7 +92,7 @@
             app:layout_constraintStart_toStartOf="@+id/studentEmailTxt"
             app:layout_constraintTop_toBottomOf="@+id/studentEmailTxt" />
 
-        <EditText
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/firstNameTxt"
             android:layout_width="match_parent"
             android:layout_height="55dp"
@@ -104,7 +101,8 @@
             android:ems="10"
             android:fontFamily="@font/forumregular"
             android:hint="Student firstName"
-            android:inputType="text"
+            android:gravity="center|left"
+            android:textSize="20sp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/studentIDNumberTxt"
@@ -112,7 +110,7 @@
             app:layout_constraintStart_toStartOf="@+id/studentIDNumberTxt"
             app:layout_constraintTop_toBottomOf="@+id/studentIDNumberTxt" />
 
-        <EditText
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/lastNameTxt"
             android:layout_width="match_parent"
             android:layout_height="55dp"
@@ -121,7 +119,8 @@
             android:ems="10"
             android:fontFamily="@font/forumregular"
             android:hint="Student Lastname"
-            android:inputType="text"
+            android:gravity="center|left"
+            android:textSize="20sp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/firstNameTxt"
@@ -129,7 +128,7 @@
             app:layout_constraintStart_toStartOf="@+id/firstNameTxt"
             app:layout_constraintTop_toBottomOf="@+id/firstNameTxt" />
 
-        <EditText
+        <com.google.android.material.textview.MaterialTextView
             android:id="@+id/phoneNumberTxt"
             android:layout_width="match_parent"
             android:layout_height="55dp"
@@ -138,7 +137,8 @@
             android:ems="10"
             android:fontFamily="@font/forumregular"
             android:hint="Student Phone Number"
-            android:inputType="text"
+            android:gravity="center|left"
+            android:textSize="20sp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/lastNameTxt"
@@ -146,7 +146,7 @@
             app:layout_constraintStart_toStartOf="@+id/lastNameTxt"
             app:layout_constraintTop_toBottomOf="@+id/lastNameTxt" />
 
-        <EditText
+        <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/examRoomTxt"
             android:layout_width="match_parent"
             android:layout_height="55dp"
@@ -163,24 +163,50 @@
             app:layout_constraintStart_toStartOf="@+id/phoneNumberTxt"
             app:layout_constraintTop_toBottomOf="@+id/phoneNumberTxt" />
 
-        <EditText
+<!--        <androidx.appcompat.widget.AppCompatSpinner-->
+<!--            android:id="@+id/facultyTxt"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="55dp"-->
+<!--            android:layout_marginTop="5dp"-->
+<!--            android:background="@drawable/login_forms"-->
+<!--            android:ems="10"-->
+<!--            android:fontFamily="@font/forumregular"-->
+<!--            android:hint="Faculty"-->
+<!--            android:inputType="text"-->
+<!--            android:textColor="@color/white"-->
+<!--            android:textColorHint="@color/white"-->
+<!--            app:layout_constraintEnd_toEndOf="@+id/examRoomTxt"-->
+<!--            app:layout_constraintHorizontal_bias="0.458"-->
+<!--            app:layout_constraintStart_toStartOf="@+id/examRoomTxt"-->
+<!--            app:layout_constraintTop_toBottomOf="@+id/examRoomTxt" />-->
+
+        <com.google.android.material.textfield.TextInputEditText
             android:id="@+id/facultyTxt"
-            android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="5dp"
             android:background="@drawable/login_forms"
             android:ems="10"
             android:fontFamily="@font/forumregular"
-            android:hint="Faculty"
-            android:inputType="text"
-            android:textColor="@color/white"
-            android:textColorHint="@color/white"
+            android:hint="Select an option"
             app:layout_constraintEnd_toEndOf="@+id/examRoomTxt"
             app:layout_constraintHorizontal_bias="0.458"
             app:layout_constraintStart_toStartOf="@+id/examRoomTxt"
-            app:layout_constraintTop_toBottomOf="@+id/examRoomTxt" />
+            app:layout_constraintTop_toBottomOf="@+id/examRoomTxt"
+            >
 
-        <EditText
+            <com.google.android.material.textview.MaterialTextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text=""/>
+
+            <androidx.appcompat.widget.AppCompatSpinner
+                android:id="@+id/facultyTxt1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </com.google.android.material.textfield.TextInputEditText>
+
+        <androidx.appcompat.widget.AppCompatSpinner
             android:id="@+id/moduleNameTxt"
             android:layout_width="match_parent"
             android:layout_height="55dp"
