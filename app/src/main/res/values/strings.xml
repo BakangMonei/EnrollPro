@@ -50,4 +50,10 @@
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
     <string name="module_leader_email_prompt">Testing Neizaaaaaaaaa Dropdown</string>
+    <string name="table_prompt">Table Number</string>
+    <string name="room_prompt">Room Number</string>
+
+
+
+    <string name="spinner_block_item">Select Exam Block</string>
 </resources>

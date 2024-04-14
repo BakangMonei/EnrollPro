@@ -3,6 +3,7 @@ package com.assignment.enrollpro.Activities;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.util.Log;
 import android.view.View;
 import android.widget.*;
 
@@ -36,10 +37,11 @@ public class BookExamActivity extends AppCompatActivity {
 
     // Exam Room Spinner
     Spinner examRoomTxt;
+    TextView roomTableTxt;
     /***********************************/
 
     // Faculty Spinner
-    Spinner facultyTxt;
+    Spinner facultyTxt, roomSpinner, tableSpinner;
     /***********************************/
 
     // Module Spinner
@@ -64,7 +66,20 @@ public class BookExamActivity extends AppCompatActivity {
         /**************************** ModuleLeader Spinner **********************************/
         moduleLeaderEmailTxt = (Spinner) findViewById(R.id.moduleLeaderEmailTxt);
         moduleLeaderNameTxt = (TextView) findViewById(R.id.moduleLeaderNameTxt);
+        fetchLectureEmails();
+        moduleLeaderEmailTxt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedEmail = parent.getItemAtPosition(position).toString();
+                // Fetch data corresponding to selected email
+                fetchLectureData(selectedEmail);
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
         /******************************************************************************/
 
 
@@ -74,10 +89,7 @@ public class BookExamActivity extends AppCompatActivity {
         firstNameTxt = (TextView) findViewById(R.id.firstNameTxt);
         lastNameTxt = (TextView) findViewById(R.id.lastNameTxt);
         phoneNumberTxt = (TextView) findViewById(R.id.phoneNumberTxt);
-
-        // Fetch emails from Firestore and populate spinner
         fetchEmails();
-
         studentEmailTxt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -91,14 +103,20 @@ public class BookExamActivity extends AppCompatActivity {
                 // Do nothing
             }
         });
-
         /******************************************************************************/
 
 
+        /**************************** Room, Table and Block Number Spinner **********************************/
         examRoomTxt = (Spinner) findViewById(R.id.examRoomTxt);
+        roomSpinner = (Spinner) findViewById(R.id.roomSpinner);
+        tableSpinner = (Spinner) findViewById(R.id.tableSpinner);
+        fetchBlockLists();
+        // Set up listener for examRoomTxt spinner
+
+        /******************************************************************************/
+
         facultyTxt = (Spinner) findViewById(R.id.facultyTxt);
         moduleNameTxt = (Spinner) findViewById(R.id.moduleNameTxt);
-
 
         dateAndTimeEditText = findViewById(R.id.dateAndTimeEditText);
 
@@ -179,6 +197,7 @@ public class BookExamActivity extends AppCompatActivity {
             }
         });
     }
+
     private void fetchData(String email) {
         // Fetch data from FireStore corresponding to the selected email
         db.collection("students").whereEqualTo("email", email)
@@ -206,12 +225,10 @@ public class BookExamActivity extends AppCompatActivity {
                     }
                 });
     }
-
-
     /***********************************************************************/
 
     /********************************* ModuleLeader Details **************************************/
-    private void fetchModuleLeaderEmails() {
+    private void fetchLectureEmails() {
         // Fetch emails from Firestore
         db.collection("lectures").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -231,33 +248,63 @@ public class BookExamActivity extends AppCompatActivity {
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                     moduleLeaderEmailTxt.setAdapter(adapter);
                 } else {
-                    Toast.makeText(BookExamActivity.this, "Error fetching emails", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(BookExamActivity.this, "Error fetching lecture emails", Toast.LENGTH_SHORT).show();
                 }
             }
         });
     }
 
-    private void fetchModuleLeaderData(String email) {
-        // Fetch data from Firestore corresponding to the selected email
-        db.collection("lectures").whereEqualTo("email", email).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+    private void fetchLectureData(String email) {
+        // Fetch data from FireStore corresponding to the selected email
+        db.collection("lectures").whereEqualTo("email", email)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override
                     public void onComplete(@NonNull Task<QuerySnapshot> task) {
                         if (task.isSuccessful()) {
                             for (DocumentSnapshot document : task.getResult()) {
                                 // Assuming the document structure has fields like studentIDNumber, firstName, lastName, phoneNumber
-                                String moduleLeaderNameTxt = document.getString("firstname" + " " + "lastname");
+                                String moduleLeader = document.getString("username");
+
 
                                 // Display fetched data in TextViews
-                                studentIDNumberTxt.setText(moduleLeaderNameTxt);
-
+                                moduleLeaderNameTxt.setText(moduleLeader);
                             }
                         } else {
-                            Toast.makeText(BookExamActivity.this, "Error fetching data", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(BookExamActivity.this, "Error fetching lecture data", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
 
+    /***********************************************************************/
+
+    /********************************* Lecture Room Details **************************************/
+    private void fetchBlockLists() {
+        // Fetch blocklist from Firestore
+        db.collection("roomTable").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<String> blockLists = new ArrayList<>();
+                    for (DocumentSnapshot document : task.getResult()) {
+                        // Assuming email is stored as a field in the document
+                        String block = document.getString("Block");
+                        if (block != null && !block.isEmpty()) {
+                            blockLists.add(block);
+                        }
+                    }
+                    // Populate spinner with emails
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(BookExamActivity.this,
+                            android.R.layout.simple_spinner_item, blockLists);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    examRoomTxt.setAdapter(adapter);
+                } else {
+                    Toast.makeText(BookExamActivity.this, "Error fetching blockList", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
     /***********************************************************************/
 
 }
