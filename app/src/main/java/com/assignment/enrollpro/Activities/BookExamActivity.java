@@ -60,8 +60,12 @@ public class BookExamActivity extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
 
         // Initialize views
+
+        /**************************** ModuleLeader Spinner **********************************/
         moduleLeaderEmailTxt = (Spinner) findViewById(R.id.moduleLeaderEmailTxt);
         moduleLeaderNameTxt = (TextView) findViewById(R.id.moduleLeaderNameTxt);
+
+        /******************************************************************************/
 
 
         /**************************** Student Spinner **********************************/
@@ -176,7 +180,7 @@ public class BookExamActivity extends AppCompatActivity {
         });
     }
     private void fetchData(String email) {
-        // Fetch data from Firestore corresponding to the selected email
+        // Fetch data from FireStore corresponding to the selected email
         db.collection("students").whereEqualTo("email", email)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -202,5 +206,58 @@ public class BookExamActivity extends AppCompatActivity {
                     }
                 });
     }
+
+
     /***********************************************************************/
+
+    /********************************* ModuleLeader Details **************************************/
+    private void fetchModuleLeaderEmails() {
+        // Fetch emails from Firestore
+        db.collection("lectures").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<String> emailsList = new ArrayList<>();
+                    for (DocumentSnapshot document : task.getResult()) {
+                        // Assuming email is stored as a field in the document
+                        String email = document.getString("email");
+                        if (email != null && !email.isEmpty()) {
+                            emailsList.add(email);
+                        }
+                    }
+                    // Populate spinner with emails
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(BookExamActivity.this,
+                            android.R.layout.simple_spinner_item, emailsList);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    moduleLeaderEmailTxt.setAdapter(adapter);
+                } else {
+                    Toast.makeText(BookExamActivity.this, "Error fetching emails", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+    private void fetchModuleLeaderData(String email) {
+        // Fetch data from Firestore corresponding to the selected email
+        db.collection("lectures").whereEqualTo("email", email).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (DocumentSnapshot document : task.getResult()) {
+                                // Assuming the document structure has fields like studentIDNumber, firstName, lastName, phoneNumber
+                                String moduleLeaderNameTxt = document.getString("firstname" + " " + "lastname");
+
+                                // Display fetched data in TextViews
+                                studentIDNumberTxt.setText(moduleLeaderNameTxt);
+
+                            }
+                        } else {
+                            Toast.makeText(BookExamActivity.this, "Error fetching data", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    /***********************************************************************/
+
 }
