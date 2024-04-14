@@ -106,19 +106,31 @@ public class BookExamActivity extends AppCompatActivity {
         /******************************************************************************/
 
 
-        /**************************** Room, Table and Block Number Spinner **********************************/
-        examRoomTxt = (Spinner) findViewById(R.id.examRoomTxt);
-        roomSpinner = (Spinner) findViewById(R.id.roomSpinner);
-        tableSpinner = (Spinner) findViewById(R.id.tableSpinner);
-        fetchBlockLists();
-        // Set up listener for examRoomTxt spinner
-
-        /******************************************************************************/
-
         facultyTxt = (Spinner) findViewById(R.id.facultyTxt);
         moduleNameTxt = (Spinner) findViewById(R.id.moduleNameTxt);
 
         dateAndTimeEditText = findViewById(R.id.dateAndTimeEditText);
+
+        /***************************** Room, Table, and Block Number Spinner **********************************/
+        examRoomTxt = (Spinner) findViewById(R.id.examRoomTxt);
+        roomSpinner = (Spinner) findViewById(R.id.roomSpinner);
+        tableSpinner = (Spinner) findViewById(R.id.tableSpinner);
+        fetchBlockLists();
+
+        // Set up listener for examRoomTxt spinner
+        examRoomTxt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedBlock = (String) parent.getItemAtPosition(position);
+                fetchRoomsAndTablesForBlock(selectedBlock);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Do nothing
+            }
+        });
+/******************************************************************************************/
 
         viewExamsBtn = findViewById(R.id.viewExamsBtn);
         sendQRBtn = findViewById(R.id.sendQRBtn);
@@ -280,6 +292,56 @@ public class BookExamActivity extends AppCompatActivity {
     /***********************************************************************/
 
     /********************************* Lecture Room Details **************************************/
+    private void fetchRoomsAndTablesForBlock(String selectedBlock) {
+        // Fetch rooms for the selected block from Firestore
+        db.collection("roomTable").whereEqualTo("Block", selectedBlock).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<String> roomList = new ArrayList<>();
+                    for (DocumentSnapshot document : task.getResult()) {
+                        // Assuming Room is stored as an array in the document
+                        List<String> rooms = (List<String>) document.get("Room");
+                        if (rooms != null && !rooms.isEmpty()) {
+                            roomList.addAll(rooms);
+                        }
+                    }
+                    // Populate roomSpinner with rooms
+                    ArrayAdapter<String> roomAdapter = new ArrayAdapter<>(BookExamActivity.this,
+                            android.R.layout.simple_spinner_item, roomList);
+                    roomAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    roomSpinner.setAdapter(roomAdapter);
+                } else {
+                    Toast.makeText(BookExamActivity.this, "Error fetching rooms for selected block", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
+        // Fetch tables for the selected block from Firestore
+        db.collection("roomTable").whereEqualTo("Block", selectedBlock).get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<String> tableList = new ArrayList<>();
+                    for (DocumentSnapshot document : task.getResult()) {
+                        // Assuming Table is stored as an array in the document
+                        List<String> tables = (List<String>) document.get("Table");
+                        if (tables != null && !tables.isEmpty()) {
+                            tableList.addAll(tables);
+                        }
+                    }
+                    // Populate tableSpinner with tables
+                    ArrayAdapter<String> tableAdapter = new ArrayAdapter<>(BookExamActivity.this,
+                            android.R.layout.simple_spinner_item, tableList);
+                    tableAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    tableSpinner.setAdapter(tableAdapter);
+                } else {
+                    Toast.makeText(BookExamActivity.this, "Error fetching tables for selected block", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
     private void fetchBlockLists() {
         // Fetch blocklist from Firestore
         db.collection("roomTable").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
@@ -288,13 +350,13 @@ public class BookExamActivity extends AppCompatActivity {
                 if (task.isSuccessful()) {
                     List<String> blockLists = new ArrayList<>();
                     for (DocumentSnapshot document : task.getResult()) {
-                        // Assuming email is stored as a field in the document
+                        // Assuming Block is stored as a field in the document
                         String block = document.getString("Block");
                         if (block != null && !block.isEmpty()) {
                             blockLists.add(block);
                         }
                     }
-                    // Populate spinner with emails
+                    // Populate spinner with blocks
                     ArrayAdapter<String> adapter = new ArrayAdapter<>(BookExamActivity.this,
                             android.R.layout.simple_spinner_item, blockLists);
                     adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -302,6 +364,21 @@ public class BookExamActivity extends AppCompatActivity {
                 } else {
                     Toast.makeText(BookExamActivity.this, "Error fetching blockList", Toast.LENGTH_SHORT).show();
                 }
+            }
+        });
+
+        // Listen for selection change on examRoomTxt spinner
+        examRoomTxt.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parentView, View selectedItemView, int position, long id) {
+                // Fetch rooms and tables for the selected block
+                String selectedBlock = (String) parentView.getItemAtPosition(position);
+                fetchRoomsAndTablesForBlock(selectedBlock);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parentView) {
+                // Do nothing
             }
         });
     }
