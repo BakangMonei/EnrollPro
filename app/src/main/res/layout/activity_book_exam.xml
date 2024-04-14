@@ -27,6 +27,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+
         <!-- Module Leader Email Spinner -->
         <Spinner
             android:id="@+id/moduleLeaderEmailTxt"
@@ -34,10 +35,10 @@
             android:layout_height="55dp"
             android:layout_marginTop="1dp"
             android:background="@android:drawable/btn_dropdown"
+            android:backgroundTint="@color/white"
             android:clipToOutline="true"
             android:fontFamily="@font/forumregular"
             android:inputType="textEmailAddress"
-            android:padding="8dp"
             android:spinnerMode="dropdown"
             android:state_pressed="true"
             android:textColor="@color/white"
@@ -47,24 +48,34 @@
             app:layout_constraintStart_toStartOf="@+id/textView4"
             app:layout_constraintTop_toBottomOf="@+id/textView4" />
 
-        <!-- Module Leader FirstName + Lastname TextView-->
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/moduleLeaderNameTxt"
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/moduleLeaderNameTxt1"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/login_forms"
-            android:ems="10"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/forumregular"
-            android:gravity="center|left"
-            android:hint="Module-Leader Name"
+            android:hint="Lecture Username"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:textSize="20sp"
+            app:hintTextColor="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/moduleLeaderEmailTxt"
             app:layout_constraintHorizontal_bias="0.458"
             app:layout_constraintStart_toStartOf="@+id/moduleLeaderEmailTxt"
-            app:layout_constraintTop_toBottomOf="@+id/moduleLeaderEmailTxt" />
+            app:layout_constraintTop_toBottomOf="@+id/moduleLeaderEmailTxt">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/moduleLeaderNameTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:enabled="false"
+                android:fontFamily="@font/forumregular"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
 
         <!-- Student Email Spinner-->
         <Spinner
@@ -73,92 +84,130 @@
             android:layout_height="55dp"
             android:layout_marginTop="5dp"
             android:background="@android:drawable/btn_dropdown"
+            android:backgroundTint="@color/white"
             android:clipToOutline="true"
             android:ems="10"
             android:fontFamily="@font/forumregular"
             android:hint="Select Student Email"
             android:inputType="textEmailAddress"
-            android:padding="8dp"
             android:spinnerMode="dropdown"
             android:state_pressed="true"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            app:layout_constraintEnd_toEndOf="@+id/moduleLeaderNameTxt"
+            app:layout_constraintEnd_toEndOf="@+id/moduleLeaderNameTxt1"
             app:layout_constraintHorizontal_bias="0.458"
-            app:layout_constraintStart_toStartOf="@+id/moduleLeaderNameTxt"
-            app:layout_constraintTop_toBottomOf="@+id/moduleLeaderNameTxt" />
+            app:layout_constraintStart_toStartOf="@+id/moduleLeaderNameTxt1"
+            app:layout_constraintTop_toBottomOf="@+id/moduleLeaderNameTxt1" />
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/studentIDNumberTxt"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/studentIDNumberTxt1"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/login_forms"
-            android:ems="10"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/forumregular"
-            android:gravity="center|left"
-            android:hint="StudentID"
+            android:hint="Student ID"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:textSize="20sp"
+            app:hintTextColor="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/studentEmailTxt"
             app:layout_constraintHorizontal_bias="0.458"
             app:layout_constraintStart_toStartOf="@+id/studentEmailTxt"
-            app:layout_constraintTop_toBottomOf="@+id/studentEmailTxt" />
+            app:layout_constraintTop_toBottomOf="@+id/studentEmailTxt">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/firstNameTxt"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/studentIDNumberTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:enabled="false"
+                android:fontFamily="@font/forumregular"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/firstNameTxt1"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/login_forms"
-            android:ems="10"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/forumregular"
-            android:gravity="center|left"
-            android:hint="Student firstName"
+            android:hint="Student FirstName"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/studentIDNumberTxt"
+            app:hintTextColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/studentIDNumberTxt1"
             app:layout_constraintHorizontal_bias="0.458"
-            app:layout_constraintStart_toStartOf="@+id/studentIDNumberTxt"
-            app:layout_constraintTop_toBottomOf="@+id/studentIDNumberTxt" />
+            app:layout_constraintStart_toStartOf="@+id/studentIDNumberTxt1"
+            app:layout_constraintTop_toBottomOf="@+id/studentIDNumberTxt1">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/lastNameTxt"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/firstNameTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:enabled="false"
+                android:fontFamily="@font/forumregular"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/lastNameTxt1"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/login_forms"
-            android:ems="10"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/forumregular"
-            android:gravity="center|left"
-            android:hint="Student Lastname"
+            android:hint="Student LastName"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/firstNameTxt"
+            app:hintTextColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/firstNameTxt1"
             app:layout_constraintHorizontal_bias="0.458"
-            app:layout_constraintStart_toStartOf="@+id/firstNameTxt"
-            app:layout_constraintTop_toBottomOf="@+id/firstNameTxt" />
+            app:layout_constraintStart_toStartOf="@+id/firstNameTxt1"
+            app:layout_constraintTop_toBottomOf="@+id/firstNameTxt1">
 
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/phoneNumberTxt"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/lastNameTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:enabled="false"
+                android:fontFamily="@font/forumregular"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white" />
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/phoneNumberTxt1"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/login_forms"
-            android:ems="10"
+            android:layout_height="wrap_content"
             android:fontFamily="@font/forumregular"
-            android:gravity="center|left"
-            android:hint="Student Phone Number"
+            android:hint="Student PhoneNumber"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            android:textSize="20sp"
-            app:layout_constraintEnd_toEndOf="@+id/lastNameTxt"
+            app:hintTextColor="@color/white"
+            app:layout_constraintEnd_toEndOf="@+id/lastNameTxt1"
             app:layout_constraintHorizontal_bias="0.458"
-            app:layout_constraintStart_toStartOf="@+id/lastNameTxt"
-            app:layout_constraintTop_toBottomOf="@+id/lastNameTxt" />
+            app:layout_constraintStart_toStartOf="@+id/lastNameTxt1"
+            app:layout_constraintTop_toBottomOf="@+id/lastNameTxt1">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/phoneNumberTxt"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:enabled="false"
+                android:fontFamily="@font/forumregular"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
 
         <!-- Exam Room Spinner -->
@@ -168,19 +217,19 @@
             android:layout_height="55dp"
             android:layout_marginTop="5dp"
             android:background="@android:drawable/btn_dropdown"
+            android:backgroundTint="@color/white"
             android:clipToOutline="true"
             android:ems="10"
             android:fontFamily="@font/forumregular"
             android:inputType="text"
-            android:padding="8dp"
             android:spinnerMode="dropdown"
             android:state_pressed="true"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
-            app:layout_constraintEnd_toEndOf="@+id/phoneNumberTxt"
+            app:layout_constraintEnd_toEndOf="@+id/phoneNumberTxt1"
             app:layout_constraintHorizontal_bias="0.458"
-            app:layout_constraintStart_toStartOf="@+id/phoneNumberTxt"
-            app:layout_constraintTop_toBottomOf="@+id/phoneNumberTxt" />
+            app:layout_constraintStart_toStartOf="@+id/phoneNumberTxt1"
+            app:layout_constraintTop_toBottomOf="@+id/phoneNumberTxt1" />
 
         <LinearLayout
             android:id="@+id/roomTableTxt"
@@ -198,6 +247,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:drawable/btn_dropdown"
+                android:backgroundTint="@color/white"
                 android:clipToOutline="true"
                 android:ems="10"
                 android:fontFamily="@font/forumregular"
@@ -214,6 +264,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:background="@android:drawable/btn_dropdown"
+                android:backgroundTint="@color/white"
                 android:clipToOutline="true"
                 android:ems="10"
                 android:fontFamily="@font/forumregular"
@@ -233,12 +284,12 @@
             android:layout_height="55dp"
             android:layout_marginTop="5dp"
             android:background="@android:drawable/btn_dropdown"
+            android:backgroundTint="@color/white"
             android:clipToOutline="true"
             android:ems="10"
             android:fontFamily="@font/forumregular"
             android:hint="Faculty"
             android:inputType="text"
-            android:padding="8dp"
             android:spinnerMode="dropdown"
             android:state_pressed="true"
             android:textColor="@color/white"
@@ -255,11 +306,15 @@
             android:layout_width="match_parent"
             android:layout_height="55dp"
             android:layout_marginTop="5dp"
-            android:background="@drawable/login_forms"
+            android:background="@android:drawable/btn_dropdown"
+            android:backgroundTint="@color/white"
+            android:clipToOutline="true"
             android:ems="10"
             android:fontFamily="@font/forumregular"
             android:hint="Module Name"
             android:inputType="text"
+            android:spinnerMode="dropdown"
+            android:state_pressed="true"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/facultyTxt"
@@ -267,25 +322,37 @@
             app:layout_constraintStart_toStartOf="@+id/facultyTxt"
             app:layout_constraintTop_toBottomOf="@+id/facultyTxt" />
 
-        <EditText
-            android:id="@+id/dateAndTimeEditText"
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/dateAndTimeEditText2"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
-            android:layout_marginTop="5dp"
-            android:background="@drawable/login_forms"
-            android:clickable="true"
-            android:drawableEnd="@drawable/baseline_access_time_24"
-            android:drawablePadding="8dp"
-            android:focusable="false"
-            android:fontFamily="@font/forumregular"
-            android:hint="Select Date and Time"
-            android:padding="10dp"
+            android:layout_height="wrap_content"
+            android:hint="Date And Time"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
+            app:hintTextColor="@color/white"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/moduleNameTxt" />
+            app:layout_constraintTop_toBottomOf="@+id/moduleNameTxt">
 
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/dateAndTimeEditText"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:clickable="true"
+                android:drawableEnd="@drawable/baseline_access_time_24"
+                android:drawablePadding="8dp"
+                android:fontFamily="@font/forumregular"
+                android:padding="10dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/moduleNameTxt" />
+
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/sendQRBtn"
@@ -300,8 +367,8 @@
             android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:layout_constraintStart_toStartOf="@+id/dateAndTimeEditText"
-            app:layout_constraintTop_toBottomOf="@+id/dateAndTimeEditText" />
+            app:layout_constraintStart_toStartOf="@+id/dateAndTimeEditText2"
+            app:layout_constraintTop_toBottomOf="@+id/dateAndTimeEditText2" />
 
         <Button
             android:id="@+id/viewExamsBtn"
@@ -316,7 +383,7 @@
             android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="@+id/dateAndTimeEditText"
-            app:layout_constraintTop_toBottomOf="@+id/dateAndTimeEditText" />
+            app:layout_constraintEnd_toEndOf="@+id/dateAndTimeEditText2"
+            app:layout_constraintTop_toBottomOf="@+id/dateAndTimeEditText2" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

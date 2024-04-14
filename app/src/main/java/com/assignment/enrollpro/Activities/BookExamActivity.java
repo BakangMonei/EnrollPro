@@ -37,7 +37,6 @@ public class BookExamActivity extends AppCompatActivity {
 
     // Exam Room Spinner
     Spinner examRoomTxt;
-    TextView roomTableTxt;
     /***********************************/
 
     // Faculty Spinner
@@ -105,9 +104,15 @@ public class BookExamActivity extends AppCompatActivity {
         });
         /******************************************************************************/
 
-
-        facultyTxt = (Spinner) findViewById(R.id.facultyTxt);
+        /***************************** Module Name Spinner **********************************/
         moduleNameTxt = (Spinner) findViewById(R.id.moduleNameTxt);
+        fetchModuleLists();
+        /******************************************************************************************/
+
+        /***************************** Faculty Name Spinner **********************************/
+        facultyTxt = (Spinner) findViewById(R.id.facultyTxt);
+        fetchFacultyList();
+        /******************************************************************************************/
 
         dateAndTimeEditText = findViewById(R.id.dateAndTimeEditText);
 
@@ -130,7 +135,10 @@ public class BookExamActivity extends AppCompatActivity {
                 // Do nothing
             }
         });
-/******************************************************************************************/
+        /******************************************************************************************/
+
+
+
 
         viewExamsBtn = findViewById(R.id.viewExamsBtn);
         sendQRBtn = findViewById(R.id.sendQRBtn);
@@ -151,7 +159,6 @@ public class BookExamActivity extends AppCompatActivity {
         });
 
     }
-
 
     private void showDateTimePicker() {
         final Calendar currentDate = Calendar.getInstance();
@@ -379,6 +386,63 @@ public class BookExamActivity extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parentView) {
                 // Do nothing
+            }
+        });
+    }
+    /***********************************************************************/
+
+
+    /********************************* Module Lists **************************************/
+    private void fetchModuleLists() {
+        // Fetch modules from Firestore
+        db.collection("module").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<String> moduleList = new ArrayList<>();
+                    for (DocumentSnapshot document : task.getResult()) {
+                        // Assuming email is stored as a field in the document
+                        String moduleName = document.getString("moduleName");
+                        if (moduleName != null && !moduleName.isEmpty()) {
+                            moduleList.add(moduleName);
+                        }
+                    }
+                    // Populate spinner with emails
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(BookExamActivity.this,
+                            android.R.layout.simple_spinner_item, moduleList);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    moduleNameTxt.setAdapter(adapter);
+                } else {
+                    Toast.makeText(BookExamActivity.this, "Error fetching Module list", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+    /***********************************************************************/
+
+    /*********************************** Faculty lists ************************************/
+    private void fetchFacultyList() {
+        // Fetch modules from Firestore
+        db.collection("faculty").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if (task.isSuccessful()) {
+                    List<String> facultyNameLists = new ArrayList<>();
+                    for (DocumentSnapshot document : task.getResult()) {
+                        // Assuming email is stored as a field in the document
+                        String faculty = document.getString("facultyName");
+                        if (faculty != null && !faculty.isEmpty()) {
+                            facultyNameLists.add(faculty);
+                        }
+                    }
+                    // Populate spinner with emails
+                    ArrayAdapter<String> adapter = new ArrayAdapter<>(BookExamActivity.this,
+                            android.R.layout.simple_spinner_item, facultyNameLists);
+                    adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    facultyTxt.setAdapter(adapter);
+                } else {
+                    Toast.makeText(BookExamActivity.this, "Error fetching facultyNameLists", Toast.LENGTH_SHORT).show();
+                }
             }
         });
     }
