@@ -10,6 +10,7 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -24,7 +25,14 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.storage.FirebaseStorage;;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.MultiFormatWriter;
+import com.google.zxing.common.BitMatrix;
+import com.journeyapps.barcodescanner.BarcodeEncoder;;
+import java.io.ByteArrayOutputStream;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -74,7 +82,7 @@ public class BookExamActivity extends AppCompatActivity {
         sendQRBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                writeDataToFirestore();
+                generateQRCodeAndSendToStudent();
             }
         });
         /**************************** ModuleLeader Spinner **********************************/
@@ -458,42 +466,6 @@ public class BookExamActivity extends AppCompatActivity {
 
     /***********************************************************************/
 
-    // Design a method to generate QRCode and store to firestore and generate a link to the QRCode for text message
-    protected void generateQRCode() {
-        // Generate QRCode
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.baseline_qr_code_2_24);
-        Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
-        Canvas canvas = new Canvas(mutableBitmap);
-        canvas.drawBitmap(mutableBitmap, 0, 0, null);
-        try {
-            FileOutputStream fileOutputStream = openFileOutput("QRCode.png", MODE_PRIVATE);
-            mutableBitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
-            fileOutputStream.flush();
-            fileOutputStream.close();
-        } catch (Exception e) {
-            Log.e("QRCode", "Error generating QRCode", e);
-        }
-
-        // Store QRCode to Firebase Storage
-        storage.getReference().child("QRCode.png").putFile(Uri.parse("QRCode.png"))
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        // Get download URL for the QRCode
-                        storage.getReference().child("QRCode.png").getDownloadUrl()
-                                .addOnCompleteListener(task1 -> {
-                                    if (task1.isSuccessful()) {
-                                        String qrCodeUrl = task1.getResult().toString();
-                                        // Send SMS with QRCode URL
-                                        sendSMS(qrCodeUrl);
-                                    } else {
-                                        Toast.makeText(BookExamActivity.this, "Error fetching QRCode URL", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
-                    } else {
-                        Toast.makeText(BookExamActivity.this, "Error storing QRCode", Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
     /***********************************************************************/
     protected void sendSMS(String qrCodeUrl) {
         Intent sendIntent = new Intent();
@@ -571,7 +543,96 @@ public class BookExamActivity extends AppCompatActivity {
                 });
     }
 
+    protected void generateQRCodeAndSendToStudent() {
+        // Write data to Firestore
+        writeDataToFirestore();
 
+        // Generate QRCode data
+        String studentEmail = studentEmailTxt.getSelectedItem().toString();
+        String studentIDNumber = studentIDNumberTxt.getText().toString();
+        String examDate = dateAndTimeEditText.getText().toString();
+        String examRoom = examRoomTxt.getSelectedItem().toString();
+        String room = roomSpinner.getSelectedItem().toString();
+        String table = tableSpinner.getSelectedItem().toString();
 
+        String qrCodeData = "Student Email: " + studentEmail + "\n"
+                + "Student ID Number: " + studentIDNumber + "\n"
+                + "Exam Date: " + examDate + "\n"
+                + "Exam Room: " + examRoom + "\n"
+                + "Room: " + room + "\n"
+                + "Table: " + table;
+
+        // Generate and store QRCode
+        generateAndStoreQRCode(studentIDNumber, qrCodeData);
+    }
+
+    // Method to generate and store QRCode
+    private void generateAndStoreQRCode(String studentIDNumber, String qrCodeData) {
+        MultiFormatWriter multiFormatWriter = new MultiFormatWriter();
+        try {
+            BitMatrix bitMatrix = multiFormatWriter.encode(qrCodeData, BarcodeFormat.QR_CODE, 500, 500);
+            BarcodeEncoder barcodeEncoder = new BarcodeEncoder();
+            Bitmap bitmap = barcodeEncoder.createBitmap(bitMatrix);
+
+            // Store QRCode to Firebase Storage
+            storeQRCodeToStorage(studentIDNumber, bitmap);
+        } catch (Exception e) {
+            // Handle exception
+            e.printStackTrace();
+            Toast.makeText(BookExamActivity.this, "Error generating QRCode", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // Method to store QRCode to Firebase Storage
+    private void storeQRCodeToStorage(String studentIDNumber, Bitmap bitmap) {
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, baos);
+        byte[] data = baos.toByteArray();
+
+        // Get a reference to the location where we'll store our photos
+        StorageReference storageRef = storage.getReference().child("qrcodes").child(studentIDNumber + ".png");
+
+        UploadTask uploadTask = storageRef.putBytes(data);
+        uploadTask.continueWithTask(task -> {
+            if (!task.isSuccessful()) {
+                throw task.getException();
+            }
+            // Continue with the task to get the download URL
+            return storageRef.getDownloadUrl();
+        }).addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                Uri downloadUri = task.getResult();
+                String qrCodeUrl = downloadUri.toString();
+
+                // Send QRCode URL to student's email
+                sendEmailToStudent(String.valueOf(studentEmailTxt), qrCodeUrl);
+            } else {
+                // Handle errors
+                Toast.makeText(BookExamActivity.this, "Error storing QRCode", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    // Method to send email to student
+    private void sendEmailToStudent(String studentEmail, String qrCodeUrl) {
+        // Create an Intent to send email
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.setData(Uri.parse("mailto:" + studentEmail)); // Email address to send to
+
+        // Set email subject
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your QR Code");
+
+        // Set email body
+        String emailBody = "Dear Student,\n\nPlease find your QR code attached below.\n\nQR Code URL: " + qrCodeUrl;
+        emailIntent.putExtra(Intent.EXTRA_TEXT, emailBody);
+
+        try {
+            // Start the activity to send email
+            startActivity(emailIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            // Handle error if no email app is installed
+            Toast.makeText(BookExamActivity.this, "No email app installed", Toast.LENGTH_SHORT).show();
+        }
+    }
 
 }
