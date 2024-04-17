@@ -10,7 +10,6 @@ import android.support.annotation.NonNull;
 import android.util.Log;
 import android.view.View;
 import android.widget.*;
-
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.DatePickerDialog;
@@ -18,7 +17,10 @@ import android.app.TimePickerDialog;
 
 import com.assignment.enrollpro.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -26,7 +28,9 @@ import com.google.firebase.storage.FirebaseStorage;;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class BookExamActivity extends AppCompatActivity {
 
@@ -70,6 +74,7 @@ public class BookExamActivity extends AppCompatActivity {
         sendQRBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                writeDataToFirestore();
             }
         });
         /**************************** ModuleLeader Spinner **********************************/
@@ -456,7 +461,7 @@ public class BookExamActivity extends AppCompatActivity {
     // Design a method to generate QRCode and store to firestore and generate a link to the QRCode for text message
     protected void generateQRCode() {
         // Generate QRCode
-        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background);
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.baseline_qr_code_2_24);
         Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
         Canvas canvas = new Canvas(mutableBitmap);
         canvas.drawBitmap(mutableBitmap, 0, 0, null);
@@ -489,9 +494,7 @@ public class BookExamActivity extends AppCompatActivity {
                     }
                 });
     }
-
     /***********************************************************************/
-
     protected void sendSMS(String qrCodeUrl) {
         Intent sendIntent = new Intent();
         sendIntent.setAction(Intent.ACTION_SEND);
@@ -507,6 +510,68 @@ public class BookExamActivity extends AppCompatActivity {
         Intent shareIntent = Intent.createChooser(sendIntent, "Share Exam Details");
         startActivity(shareIntent);
     }
+
+    // Method to write data to Firestore
+    private void writeDataToFirestore() {
+        String email = studentEmailTxt.getSelectedItem().toString();
+        String studentIDNumber = studentIDNumberTxt.getText().toString();
+        String firstName = firstNameTxt.getText().toString();
+        String lastName = lastNameTxt.getText().toString();
+        String phoneNumber = phoneNumberTxt.getText().toString();
+        String moduleName = moduleNameTxt.getSelectedItem().toString();
+        String dateAndTime = dateAndTimeEditText.getText().toString();
+        String examRoom = examRoomTxt.getSelectedItem().toString();
+        String room = roomSpinner.getSelectedItem().toString();
+        String table = tableSpinner.getSelectedItem().toString();
+        String faculty = facultyTxt.getSelectedItem().toString();
+        String moduleLeaderEmail = moduleLeaderEmailTxt.getSelectedItem().toString();
+        String moduleLeaderName = moduleLeaderNameTxt.getText().toString();
+
+        // Validations
+        if (email.isEmpty() || studentIDNumber.isEmpty() || firstName.isEmpty() || lastName.isEmpty() || phoneNumber.isEmpty() || moduleName.isEmpty() || dateAndTime.isEmpty() || examRoom.isEmpty() || room.isEmpty() || table.isEmpty() || faculty.isEmpty() || moduleLeaderEmail.isEmpty() || moduleLeaderName.isEmpty()) {
+            Toast.makeText(this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Access a Cloud Firestore instance
+        db = FirebaseFirestore.getInstance();
+
+        // Create a new data object
+        Map<String, Object> data = new HashMap<>();
+        data.put("email", email);
+        data.put("studentIDNumber", studentIDNumber);
+        data.put("firstName", firstName);
+        data.put("lastName", lastName);
+        data.put("phoneNumber", phoneNumber);
+        data.put("moduleName", moduleName);
+        data.put("dateAndTime", dateAndTime);
+        data.put("examRoom", examRoom);
+        data.put("room", room);
+        data.put("table", table);
+        data.put("faculty", faculty);
+        data.put("moduleLeaderEmail", moduleLeaderEmail);
+        data.put("moduleLeaderName", moduleLeaderName);
+
+        // Add a new document with a generated ID
+        db.collection("exams")
+                .add(data)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("TAG", "DocumentSnapshot added with ID: " + documentReference.getId());
+                        Toast.makeText(BookExamActivity.this, "Data added successfully", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("TAG", "Error adding document", e);
+                        Toast.makeText(BookExamActivity.this, "Failed to add data", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+
 
 
 }
