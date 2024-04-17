@@ -1,6 +1,10 @@
 package com.assignment.enrollpro.Activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Canvas;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.util.Log;
@@ -19,6 +23,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;;
+import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -45,7 +50,6 @@ public class BookExamActivity extends AppCompatActivity {
 
     // Module Spinner
     Spinner moduleNameTxt;
-
     EditText dateAndTimeEditText;
     Button sendQRBtn, viewExamsBtn;
 
@@ -61,7 +65,13 @@ public class BookExamActivity extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
 
         // Initialize views
-
+        // Add To FireStore
+        sendQRBtn = (Button) findViewById(R.id.sendQRBtn);
+        sendQRBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+            }
+        });
         /**************************** ModuleLeader Spinner **********************************/
         moduleLeaderEmailTxt = (Spinner) findViewById(R.id.moduleLeaderEmailTxt);
         moduleLeaderNameTxt = (TextView) findViewById(R.id.moduleLeaderNameTxt);
@@ -80,7 +90,6 @@ public class BookExamActivity extends AppCompatActivity {
             }
         });
         /******************************************************************************/
-
 
         /**************************** Student Spinner **********************************/
         studentEmailTxt = (Spinner) findViewById(R.id.studentEmailTxt);
@@ -137,11 +146,7 @@ public class BookExamActivity extends AppCompatActivity {
         });
         /******************************************************************************************/
 
-
-
-
         viewExamsBtn = findViewById(R.id.viewExamsBtn);
-        sendQRBtn = findViewById(R.id.sendQRBtn);
 
         // Set click listener to show Date Picker Dialog
         dateAndTimeEditText.setOnClickListener(new View.OnClickListener() {
@@ -157,7 +162,6 @@ public class BookExamActivity extends AppCompatActivity {
                 startActivity(x);
             }
         });
-
     }
 
     private void showDateTimePicker() {
@@ -446,6 +450,63 @@ public class BookExamActivity extends AppCompatActivity {
             }
         });
     }
+
     /***********************************************************************/
+
+    // Design a method to generate QRCode and store to firestore and generate a link to the QRCode for text message
+    protected void generateQRCode() {
+        // Generate QRCode
+        Bitmap bitmap = BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_background);
+        Bitmap mutableBitmap = bitmap.copy(Bitmap.Config.ARGB_8888, true);
+        Canvas canvas = new Canvas(mutableBitmap);
+        canvas.drawBitmap(mutableBitmap, 0, 0, null);
+        try {
+            FileOutputStream fileOutputStream = openFileOutput("QRCode.png", MODE_PRIVATE);
+            mutableBitmap.compress(Bitmap.CompressFormat.PNG, 100, fileOutputStream);
+            fileOutputStream.flush();
+            fileOutputStream.close();
+        } catch (Exception e) {
+            Log.e("QRCode", "Error generating QRCode", e);
+        }
+
+        // Store QRCode to Firebase Storage
+        storage.getReference().child("QRCode.png").putFile(Uri.parse("QRCode.png"))
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        // Get download URL for the QRCode
+                        storage.getReference().child("QRCode.png").getDownloadUrl()
+                                .addOnCompleteListener(task1 -> {
+                                    if (task1.isSuccessful()) {
+                                        String qrCodeUrl = task1.getResult().toString();
+                                        // Send SMS with QRCode URL
+                                        sendSMS(qrCodeUrl);
+                                    } else {
+                                        Toast.makeText(BookExamActivity.this, "Error fetching QRCode URL", Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+                    } else {
+                        Toast.makeText(BookExamActivity.this, "Error storing QRCode", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    /***********************************************************************/
+
+    protected void sendSMS(String qrCodeUrl) {
+        Intent sendIntent = new Intent();
+        sendIntent.setAction(Intent.ACTION_SEND);
+        sendIntent.putExtra(Intent.EXTRA_TEXT, "Exam Details"
+                + "\nStudent Email: " + studentEmailTxt
+                + "\nStudent ID Number: " + studentIDNumberTxt
+                + "\nExam Date: " + dateAndTimeEditText
+                + "\nExam Block : " + examRoomTxt
+                + "\nRoom: " + roomSpinner
+                + "\nTable: " + tableSpinner
+                + "\nQRCode URL: " + qrCodeUrl);
+        sendIntent.setType("text/plain");
+        Intent shareIntent = Intent.createChooser(sendIntent, "Share Exam Details");
+        startActivity(shareIntent);
+    }
+
 
 }
