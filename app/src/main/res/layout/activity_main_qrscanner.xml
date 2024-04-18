@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/gray"
+    android:gravity="center_horizontal"
+    tools:context=".MainQRScannerActivity">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="MY QR CODE"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:layout_marginTop="50dp"/>
+
+    <androidx.cardview.widget.CardView
+        android:layout_marginTop="35dp"
+        android:layout_width="290dp"
+        android:layout_height="350dp"
+        app:cardCornerRadius="25dp">
+
+        <ImageView
+            android:id="@+id/img_qr"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scaleType="fitCenter">
+        </ImageView>
+
+    </androidx.cardview.widget.CardView>
+
+    <androidx.cardview.widget.CardView
+        android:layout_width="300dp"
+        android:layout_height="80dp"
+        android:layout_marginTop="20dp"
+        app:cardCornerRadius="50dp"
+        android:backgroundTint="#5754D3">
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:layout_width="43dp"
+                android:layout_height="43dp"
+                android:id="@+id/btnQr"
+                android:layout_marginLeft="17dp"
+                android:layout_marginTop="20dp"
+                style="@style/floating_yellow">
+            </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="15dp"
+                android:text="Generate Your Qr Code"
+                android:layout_marginLeft="80dp"
+                android:textColor="@color/white"
+                android:textStyle="bold"
+                android:textSize="16sp">
+            </TextView>
+
+            <EditText
+                android:id="@+id/edtgen"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Enter your Section Here"
+                android:background="@null"
+                android:layout_marginTop="45dp"
+                android:layout_marginLeft="80dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="12sp" />
+        </RelativeLayout>
+
+    </androidx.cardview.widget.CardView>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/btnScan"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        style="@style/floating_green"
+        android:layout_marginTop="60dp"
+        android:outlineSpotShadowColor="@color/black"
+        android:outlineAmbientShadowColor="@color/black"/>
+
+</LinearLayout>

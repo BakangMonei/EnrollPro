@@ -583,6 +583,28 @@ public class BookExamActivity extends AppCompatActivity {
         }
     }
 
+
+    // Method to send email to student
+    private void sendEmailToStudent(String studentEmail, String qrCodeUrl) {
+        // Create an Intent to send email
+        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+        emailIntent.setData(Uri.parse("mailto:" + studentEmail)); // Email address to send to
+
+        // Set email subject
+        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your QR Code");
+
+        // Set email body
+        String emailBody = "Dear Student,\n\nPlease find your QR code attached below.\n\nQR Code URL: " + qrCodeUrl;
+        emailIntent.putExtra(Intent.EXTRA_TEXT, emailBody);
+
+        try {
+            // Start the activity to send email
+            startActivity(emailIntent);
+        } catch (android.content.ActivityNotFoundException ex) {
+            // Handle error if no email app is installed
+            Toast.makeText(BookExamActivity.this, "No email app installed", Toast.LENGTH_SHORT).show();
+        }
+    }
     // Method to store QRCode to Firebase Storage
     private void storeQRCodeToStorage(String studentIDNumber, Bitmap bitmap) {
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
@@ -611,28 +633,6 @@ public class BookExamActivity extends AppCompatActivity {
                 Toast.makeText(BookExamActivity.this, "Error storing QRCode", Toast.LENGTH_SHORT).show();
             }
         });
-    }
-
-    // Method to send email to student
-    private void sendEmailToStudent(String studentEmail, String qrCodeUrl) {
-        // Create an Intent to send email
-        Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-        emailIntent.setData(Uri.parse("mailto:" + studentEmail)); // Email address to send to
-
-        // Set email subject
-        emailIntent.putExtra(Intent.EXTRA_SUBJECT, "Your QR Code");
-
-        // Set email body
-        String emailBody = "Dear Student,\n\nPlease find your QR code attached below.\n\nQR Code URL: " + qrCodeUrl;
-        emailIntent.putExtra(Intent.EXTRA_TEXT, emailBody);
-
-        try {
-            // Start the activity to send email
-            startActivity(emailIntent);
-        } catch (android.content.ActivityNotFoundException ex) {
-            // Handle error if no email app is installed
-            Toast.makeText(BookExamActivity.this, "No email app installed", Toast.LENGTH_SHORT).show();
-        }
     }
 
 }

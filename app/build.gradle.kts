@@ -71,6 +71,9 @@ dependencies {
     implementation ("com.skyfishjy.ripplebackground:library:1.0.1")
     /*Maps*/
 
+//    implementation("me.dm7.barcodescanner:zxing:1.9.13")
+    implementation("com.karumi:dexter:6.2.2")
+
     implementation ("com.journeyapps:zxing-android-embedded:4.1.0")
 //    implementation ("com.opencsv:opencsv:5.9")
 }

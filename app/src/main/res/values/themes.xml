@@ -8,7 +8,14 @@
         <item name="windowNoTitle">true</item>
     </style>
 
-    <style name="Theme.Suitcase.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="CardView." parent="CardView">
+        <item name ="android:foreground">@drawable/qr_gradient</item>
+    </style>
+    <style name="floating_yellow" parent="Widget.Design.FloatingActionButton">
+        <item name="android:foreground">@drawable/qr_scanner</item>
+    </style>
+    <style name="floating_green" parent="Widget.Design.FloatingActionButton">
+        <item name="android:foreground">@drawable/qr_scanner</item>
+    </style>
 
-    <style name="Theme.Suitcase.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>
