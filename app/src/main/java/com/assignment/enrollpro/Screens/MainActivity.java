@@ -1,23 +1,23 @@
 package com.assignment.enrollpro.Screens;
 
-
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
-import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.FrameLayout;
 import android.widget.Toast;
-import android.widget.Toolbar;
 
-import com.assignment.enrollpro.Activities.OnboardScreenOne;
+import com.assignment.enrollpro.Screens.LectureActivity;
+import com.assignment.enrollpro.Authentications.LoginActivity;
 import com.assignment.enrollpro.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigationView;
+    FrameLayout fragmentContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,17 +25,25 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bottomNavigationView = findViewById(R.id.bttm_nav);
+        fragmentContainer = findViewById(R.id.fragment_container);
+
+        // Set the default activity
+        launchLectureActivity();
+
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            public boolean onNavigationItemSelected(MenuItem item) {
                 if (item.getItemId() == R.id.nav_home) {
-                    // Handle Home menu item click
+                    // Launch LectureActivity
+                    launchLectureActivity();
                     return true;
                 } else if (item.getItemId() == R.id.nav_profile) {
-                    // Handle Profile menu item click
+                    // Launch ProfileActivity
+                    launchProfileActivity();
                     return true;
                 } else if (item.getItemId() == R.id.nav_settings) {
-                    // Handle Settings menu item click
+                    // Launch SettingsActivity
+                    launchSettingsActivity();
                     return true;
                 } else if (item.getItemId() == R.id.nav_qrScanner) {
                     // Handle QR Scanner menu item click
@@ -47,31 +55,33 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.bottom_navigation, menu);
-        return true;
+    // Dummy method to simulate login state, replace it with your actual login logic
+    private boolean isLoggedIn() {
+        // Return true if user is logged in, false otherwise
+        return true; // Change this according to your logic
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.nav_home) {
-            // Handle Home menu item click
-            return true;
-        } else if (item.getItemId() == R.id.nav_profile) {
-            // Handle Profile menu item click
-            return true;
-        } else if (item.getItemId() == R.id.nav_settings) {
-            // Handle Settings menu item click
-            return true;
-        } else if (item.getItemId() == R.id.nav_qrScanner) {
-            // Handle QR Scanner menu item click
-            return true;
-        } else {
-            return super.onOptionsItemSelected(item);
-        }
+    // Open Camera or QR Code Scanner Activity
+    private void openQRCodeScanner() {
+        // Start your QR Code Scanner activity here
+        Toast.makeText(this, "Scanner Clicked", Toast.LENGTH_SHORT).show();
     }
 
-    // Open Camera
+    // Launch LectureActivity
+    private void launchLectureActivity() {
+        Intent intent = new Intent(MainActivity.this, LectureActivity.class);
+        startActivity(intent);
+    }
 
+    // Launch ProfileActivity
+    private void launchProfileActivity() {
+//        Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+//        startActivity(intent);
+    }
+
+    // Launch SettingsActivity
+    private void launchSettingsActivity() {
+//        Intent intent = new Intent(MainActivity.this, SettingsActivity.class);
+//        startActivity(intent);
+    }
 }

@@ -38,10 +38,10 @@
         android:theme="@style/Theme.EnrollPro"
         tools:targetApi="31">
         <activity
-            android:name=".qrScanner"
+            android:name=".Activities.qrScanner"
             android:exported="false" />
         <activity
-            android:name=".MainQRScannerActivity"
+            android:name=".Activities.MainQRScannerActivity"
             android:exported="false" />
         <activity
             android:name=".Activities.ViewBookingUpdateExamActivity"

@@ -9,6 +9,7 @@ import android.widget.*;
 
 import com.assignment.enrollpro.R;
 import com.assignment.enrollpro.Screens.LectureActivity;
+import com.assignment.enrollpro.Screens.MainActivity;
 
 public class LoginActivity extends AppCompatActivity {
     private CheckBox rememberMeCheckBox;
@@ -39,7 +40,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     public void goToLecture(View view) {
-        Intent intent = new Intent(LoginActivity.this, LectureActivity.class);
+        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
         startActivity(intent);
     }
 }
