@@ -8,7 +8,6 @@
     tools:context=".Screens.LectureActivity"
     tools:ignore="MissingConstraints">
 
-
     <TextView
         android:id="@+id/dashboardTxt"
         android:layout_width="wrap_content"
@@ -100,8 +99,8 @@
         android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="30dp"
+        android:layout_marginStart="60dp"
+        android:layout_marginTop="50dp"
         android:background="@drawable/icon_bg_menu"
         android:orientation="vertical"
         android:padding="5dp"
@@ -109,10 +108,10 @@
         app:layout_constraintTop_toBottomOf="@+id/cardView">
 
         <ImageView
-            android:id="@+id/bookExamImageView"
+            android:id="@+id/ScanImage"
             android:layout_width="100dp"
             android:layout_height="100dp"
-            android:src="@drawable/baseline_library_books_24"
+            android:src="@drawable/qr_scanner"
             tools:layout_editor_absoluteX="44dp"
             tools:layout_editor_absoluteY="212dp" />
 
@@ -122,7 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:text="Schedule Student \nExam"
+            android:text="Scan QR Code"
             android:textAlignment="center"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/bookExamImageView"
@@ -131,52 +130,18 @@
             app:layout_constraintTop_toBottomOf="@+id/bookExamImageView" />
     </LinearLayout>
 
-    <LinearLayout
-        android:id="@+id/linearLayout2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_marginEnd="50dp"
-        android:background="@drawable/icon_bg_menu"
-        android:orientation="vertical"
-        android:padding="5dp"
-        app:layout_constraintEnd_toEndOf="@+id/cardView"
-        app:layout_constraintTop_toBottomOf="@+id/cardView">
-
-        <ImageView
-            android:id="@+id/itemsUpdateImageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-
-            android:src="@drawable/baseline_mode_edit_24"
-            tools:layout_editor_absoluteX="44dp"
-            tools:layout_editor_absoluteY="212dp" />
-
-        <TextView
-            android:id="@+id/itemsUpdateTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:textAlignment="center"
-            android:text="Edit Exam \nSchedule"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@+id/itemsPurchasedImageView"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/itemsPurchasedImageView"
-            app:layout_constraintTop_toBottomOf="@+id/itemsPurchasedImageView" />
-    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/linearLayout3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="60dp"
         android:background="@drawable/icon_bg_menu"
         android:orientation="vertical"
         android:padding="5dp"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+        app:layout_constraintEnd_toEndOf="@+id/cardView"
+        app:layout_constraintTop_toBottomOf="@+id/cardView">
 
         <ImageView
             android:id="@+id/itemsViewImageView"
@@ -199,51 +164,6 @@
             app:layout_constraintStart_toStartOf="@+id/itemsPurchasedImageView"
             app:layout_constraintTop_toBottomOf="@+id/itemsPurchasedImageView" />
     </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:background="@drawable/icon_bg_menu"
-        android:orientation="vertical"
-        android:padding="5dp"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout2"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout2">
-
-        <ImageView
-            android:id="@+id/itemsDeletedImageView"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/baseline_delete_24"
-            tools:layout_editor_absoluteX="44dp"
-            tools:layout_editor_absoluteY="212dp" />
-
-        <TextView
-            android:id="@+id/itemsDeletedTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:text="Deleted List"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@+id/itemsPurchasedImageView"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/itemsPurchasedImageView"
-            app:layout_constraintTop_toBottomOf="@+id/itemsPurchasedImageView" />
-
-    </LinearLayout>
-
-
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/uploadCSVFloatingActionBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:clickable="true"
-        app:layout_constraintEnd_toEndOf="@+id/linearLayout3"
-        app:layout_constraintStart_toStartOf="@+id/linearLayout3"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout3"
-        app:srcCompat="@android:drawable/ic_menu_add" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

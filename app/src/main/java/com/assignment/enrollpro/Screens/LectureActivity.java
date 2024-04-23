@@ -44,12 +44,12 @@ public class LectureActivity extends AppCompatActivity {
     private static final int PICK_CSV_REQUEST = 1;
     private static final int STORAGE_PERMISSION_REQUEST_CODE = 2;
 
-    private FloatingActionButton uploadCSVFloatingActionBtn;
+//    private FloatingActionButton uploadCSVFloatingActionBtn;
     private FirebaseFirestore db;
     /*************************************/
 
-    private ImageView bookExamImageView, itemsUpdateImageView, itemsDeletedImageView, itemsViewImageView;
-    private TextView bookExamTextView, itemsUpdateTextView, itemsDeletedTextView, itemsViewTextView;
+    private ImageView bookExamImageView, itemsViewImageView;
+    private TextView bookExamTextView, itemsViewTextView;
 
 
     @Override
@@ -61,13 +61,13 @@ public class LectureActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
 
-        uploadCSVFloatingActionBtn = (FloatingActionButton) findViewById(R.id.uploadCSVFloatingActionBtn);
-        uploadCSVFloatingActionBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                requestStoragePermissionAndPickCSV();
-            }
-        });
+//        uploadCSVFloatingActionBtn = (FloatingActionButton) findViewById(R.id.uploadCSVFloatingActionBtn);
+//        uploadCSVFloatingActionBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                requestStoragePermissionAndPickCSV();
+//            }
+//        });
 
         bookExamImageView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -88,31 +88,14 @@ public class LectureActivity extends AppCompatActivity {
         itemsViewImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToViewBooking(v);
+
             }
         });
         itemsViewTextView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                goToViewBooking(v);
             }
         });
-
-        itemsDeletedImageView = (ImageView) findViewById(R.id.itemsDeletedImageView);
-        itemsDeletedTextView = (TextView) findViewById(R.id.itemsDeletedTextView);
-        itemsDeletedImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToDeletedBooking(v);
-            }
-        });
-        itemsDeletedTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToDeletedBooking(v);
-            }
-        });
-
     }
 
     public void goToBookExam(View view) {
