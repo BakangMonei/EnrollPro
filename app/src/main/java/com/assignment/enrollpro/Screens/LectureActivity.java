@@ -2,15 +2,12 @@ package com.assignment.enrollpro.Screens;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.assignment.enrollpro.Activities.BookExamActivity;
-import com.assignment.enrollpro.Activities.DeletedBookingExamActivity;
-import com.assignment.enrollpro.Activities.ViewBookingExamActivity;
+import android.widget.*;
 
 import android.Manifest;
 import android.app.Activity;
@@ -28,7 +25,10 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -42,11 +42,18 @@ public class LectureActivity extends AppCompatActivity {
     /*********** CSV Operations ***********/
     private static final int PICK_CSV_REQUEST = 1;
     private static final int STORAGE_PERMISSION_REQUEST_CODE = 2;
+    private static final int CAMERA_PERMISSION_REQUEST_CODE = 100;
+    private static final int REQUEST_IMAGE_CAPTURE = 200;
 
-//    private FloatingActionButton uploadCSVFloatingActionBtn;
+
+    private ImageView ScanImageView, itemsViewImageView;
+    private TextView scanQRTextView, itemsViewTextView;
+
+
+    //    private FloatingActionButton uploadCSVFloatingActionBtn;
     private FirebaseFirestore db;
-    /*************************************/
 
+    /*************************************/
 
 
     @Override
@@ -54,6 +61,26 @@ public class LectureActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lecture);
         db = FirebaseFirestore.getInstance();
+
+
+        itemsViewImageView = (ImageView) findViewById(R.id.itemsViewImageView);
+
+        itemsViewTextView = (TextView) findViewById(R.id.itemsViewTextView);
+
+
+        ScanImageView = (ImageView) findViewById(R.id.ScanImageView);
+        scanQRTextView = (TextView) findViewById(R.id.scanQRTextView);
+
+        ScanImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (checkCameraPermission()) {
+                    startQRScanner();
+                } else {
+                    requestCameraPermission();
+                }
+            }
+        });
 
 
 //        uploadCSVFloatingActionBtn = (FloatingActionButton) findViewById(R.id.uploadCSVFloatingActionBtn);
@@ -92,6 +119,12 @@ public class LectureActivity extends AppCompatActivity {
             } else {
                 Toast.makeText(this, "Storage permission denied", Toast.LENGTH_SHORT).show();
             }
+        } else if (requestCode == CAMERA_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                startQRScanner();
+            } else {
+                Toast.makeText(this, "Camera permission denied", Toast.LENGTH_SHORT).show();
+            }
         }
     }
 
@@ -105,8 +138,22 @@ public class LectureActivity extends AppCompatActivity {
                     uploadCSVToFirestore(uri);
                 }
             }
+        } else if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == RESULT_OK) {
+            // Logic for handling the captured image
+        } else {
+            // Handle QR code scanning result
+            IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+            if (result != null) {
+                if (result.getContents() != null) {
+                    String qrCodeData = result.getContents();
+                    fetchDetailsFromFirestore(qrCodeData);
+                } else {
+                    Toast.makeText(this, "Failed to scan QR code", Toast.LENGTH_SHORT).show();
+                }
+            }
         }
     }
+
 
     private void uploadCSVToFirestore(Uri csvUri) {
         try {
@@ -157,5 +204,70 @@ public class LectureActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    /****************************************************/
+
+    private boolean checkCameraPermission() {
+        return ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    private void requestCameraPermission() {
+        ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA}, CAMERA_PERMISSION_REQUEST_CODE);
+    }
+
+
+    private void startQRScanner() {
+        IntentIntegrator integrator = new IntentIntegrator(this);
+        integrator.setPrompt("Scan a QR code");
+        integrator.setBeepEnabled(true);
+        integrator.setOrientationLocked(false);
+        integrator.initiateScan();
+    }
+
+
+    private void fetchDetailsFromFirestore(String qrCodeData) {
+        // Assuming the QR code data is the document ID in Firestore
+        db.collection("your_collection_name")
+                .document(qrCodeData)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        if (task.isSuccessful()) {
+                            DocumentSnapshot document = task.getResult();
+                            if (document.exists()) {
+                                displayDetailsDialog(document.getData());
+                            } else {
+                                Toast.makeText(LectureActivity.this, "Document does not exist", Toast.LENGTH_SHORT).show();
+                            }
+                        } else {
+                            Log.e("Firestore", "Error getting document", task.getException());
+                        }
+                    }
+                });
+    }
+
+    private void displayDetailsDialog(Map<String, Object> details) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Details");
+        StringBuilder detailsText = new StringBuilder();
+        for (Map.Entry<String, Object> entry : details.entrySet()) {
+            detailsText.append(entry.getKey()).append(": ").append(entry.getValue()).append("\n");
+        }
+        builder.setMessage(detailsText.toString());
+        builder.setPositiveButton("Approve", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Handle approve action
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+            }
+        });
+        builder.show();
     }
 }
