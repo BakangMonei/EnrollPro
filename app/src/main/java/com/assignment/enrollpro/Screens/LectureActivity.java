@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.assignment.enrollpro.Activities.ViewBookingExamActivity;
 import com.assignment.enrollpro.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -66,6 +67,14 @@ public class LectureActivity extends AppCompatActivity {
         itemsViewImageView = (ImageView) findViewById(R.id.itemsViewImageView);
 
         itemsViewTextView = (TextView) findViewById(R.id.itemsViewTextView);
+
+        itemsViewImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                goToExams();
+            }
+        });
+
 
 
         ScanImageView = (ImageView) findViewById(R.id.ScanImageView);
@@ -269,5 +278,11 @@ public class LectureActivity extends AppCompatActivity {
             }
         });
         builder.show();
+    }
+
+    protected void goToExams() {
+        Intent intent = new Intent(LectureActivity.this, ViewBookingExamActivity.class);
+        startActivity(intent);
+        finish();
     }
 }

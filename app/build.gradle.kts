@@ -29,6 +29,8 @@ android {
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
+
+        
     }
     buildFeatures {
         viewBinding = true
@@ -60,6 +62,9 @@ dependencies {
     annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
     implementation ("de.hdodenhof:circleimageview:3.1.0")
     implementation ("com.squareup.picasso:picasso:2.71828")
+
+
+    implementation(libs.recyclerview)
 
     /*Maps*/
     implementation (libs.play.services.maps)

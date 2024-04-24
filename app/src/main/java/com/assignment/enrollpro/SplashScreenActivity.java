@@ -1,17 +1,13 @@
 package com.assignment.enrollpro;
 
 // Splash Screen
-
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import com.assignment.enrollpro.Activities.OnboardScreenOne;
 
 public class SplashScreenActivity extends AppCompatActivity {
-
     Handler handler;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
