@@ -11,8 +11,6 @@ import android.widget.TextView;
 import com.assignment.enrollpro.Activities.BookExamActivity;
 import com.assignment.enrollpro.Activities.DeletedBookingExamActivity;
 import com.assignment.enrollpro.Activities.ViewBookingExamActivity;
-import com.assignment.enrollpro.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import android.Manifest;
 import android.app.Activity;
@@ -25,6 +23,7 @@ import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.assignment.enrollpro.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.CollectionReference;
@@ -48,18 +47,14 @@ public class LectureActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     /*************************************/
 
-    private ImageView bookExamImageView, itemsViewImageView;
-    private TextView bookExamTextView, itemsViewTextView;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lecture);
-        bookExamImageView = (ImageView) findViewById(R.id.bookExamImageView);
-        bookExamTextView = (TextView) findViewById(R.id.bookExamTextView);
-
         db = FirebaseFirestore.getInstance();
+
 
 //        uploadCSVFloatingActionBtn = (FloatingActionButton) findViewById(R.id.uploadCSVFloatingActionBtn);
 //        uploadCSVFloatingActionBtn.setOnClickListener(new View.OnClickListener() {
@@ -69,48 +64,7 @@ public class LectureActivity extends AppCompatActivity {
 //            }
 //        });
 
-        bookExamImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToBookExam(v);
-            }
-        });
 
-        bookExamTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToBookExam(v);
-            }
-        });
-
-        itemsViewImageView = (ImageView) findViewById(R.id.itemsViewImageView);
-        itemsViewTextView = (TextView) findViewById(R.id.itemsViewTextView);
-        itemsViewImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-            }
-        });
-        itemsViewTextView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-            }
-        });
-    }
-
-    public void goToBookExam(View view) {
-        Intent intent = new Intent(LectureActivity.this, BookExamActivity.class);
-        startActivity(intent);
-    }
-
-    public void goToViewBooking(View view) {
-        Intent intent = new Intent(LectureActivity.this, ViewBookingExamActivity.class);
-        startActivity(intent);
-    }
-
-    public void goToDeletedBooking(View view) {
-        Intent intent = new Intent(LectureActivity.this, DeletedBookingExamActivity.class);
-        startActivity(intent);
     }
 
     /***************** CSV Operations ********************/
@@ -204,5 +158,4 @@ public class LectureActivity extends AppCompatActivity {
                     }
                 });
     }
-    /******************************************************/
 }

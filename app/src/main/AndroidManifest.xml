@@ -38,6 +38,9 @@
         android:theme="@style/Theme.EnrollPro"
         tools:targetApi="31">
         <activity
+            android:name=".Screens.UserDashBoardActivity"
+            android:exported="false" />
+        <activity
             android:name=".Activities.ViewBookingUpdateExamActivity"
             android:exported="false" />
         <activity

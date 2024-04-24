@@ -1,6 +1,5 @@
 package com.assignment.enrollpro.Screens;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -9,8 +8,6 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
-import com.assignment.enrollpro.Screens.LectureActivity;
-import com.assignment.enrollpro.Authentications.LoginActivity;
 import com.assignment.enrollpro.R;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
