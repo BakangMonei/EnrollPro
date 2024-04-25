@@ -59,8 +59,6 @@ public class BookExamActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         storage = FirebaseStorage.getInstance();
 
-        // Initialize views
-        // Add To FireStore
         sendQRBtn = (Button) findViewById(R.id.sendQRBtn);
         sendQRBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -219,7 +217,8 @@ public class BookExamActivity extends AppCompatActivity {
 
     private void fetchData(String email) {
         // Fetch data from FireStore corresponding to the selected email
-        db.collection("students").whereEqualTo("email", email)
+//        db.collection("students").whereEqualTo("email", email)
+        db.collection("users").whereEqualTo("studentEmail", email)
                 .get()
                 .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
                     @Override

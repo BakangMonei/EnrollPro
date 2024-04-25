@@ -4,80 +4,139 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="10dp"
-    tools:ignore="HardcodedText"
     android:background="@color/black"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10dp"
+    tools:ignore="HardcodedText">
+
     <com.google.android.material.card.MaterialCardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
         android:backgroundTint="@color/soft_black"
-        app:strokeWidth="1dp"
+        app:cardCornerRadius="5dp"
         app:strokeColor="@color/figma_dark_grey"
-        app:cardCornerRadius="5dp">
+        app:strokeWidth="1dp">
+
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:padding="10dp"
-            android:orientation="vertical">
+            android:orientation="vertical"
+            android:padding="10dp">
 
             <CheckBox
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
                 android:id="@+id/checkBox"
-                />
-            <TextView
-                android:id="@+id/viewStudentEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/viewStudentEmail1"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:background="@drawable/login_forms"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/forumregular"
                 android:hint="Student Email"
-                android:padding="15dp"
-                android:fontFamily="@font/forumregular"
-                android:textStyle="bold"
-                android:textSize="20sp"
                 android:textColor="@color/white"
-                android:textColorHint="@color/white"/>
-            <TextView
-                android:id="@+id/viewStudentID"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white"
+                app:layout_constraintEnd_toEndOf="@+id/moduleLeaderEmailTxt"
+                app:layout_constraintHorizontal_bias="0.458"
+                app:layout_constraintStart_toStartOf="@+id/moduleLeaderEmailTxt"
+                app:layout_constraintTop_toBottomOf="@+id/moduleLeaderEmailTxt">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/viewStudentEmail"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:enabled="false"
+                    android:fontFamily="@font/forumregular"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    app:hintTextColor="@color/white" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/viewStudentID1"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:background="@drawable/login_forms"
-                android:hint="StudentID"
-                android:layout_marginTop="7dp"
-                android:padding="15dp"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/forumregular"
-                android:textStyle="bold"
-                android:textSize="20sp"
+                android:hint="Student ID Number"
                 android:textColor="@color/white"
-                android:textColorHint="@color/white"/>
-            <TextView
-                android:id="@+id/viewStudentDate"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white"
+                app:layout_constraintEnd_toEndOf="@+id/moduleLeaderEmailTxt"
+                app:layout_constraintHorizontal_bias="0.458"
+                app:layout_constraintStart_toStartOf="@+id/moduleLeaderEmailTxt"
+                app:layout_constraintTop_toBottomOf="@+id/moduleLeaderEmailTxt">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/viewStudentID"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:enabled="false"
+                    android:fontFamily="@font/forumregular"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    app:hintTextColor="@color/white" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/viewStudentDate1"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:background="@drawable/login_forms"
-                android:hint="Date And Time"
-                android:layout_marginTop="7dp"
-                android:padding="15dp"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/forumregular"
-                android:textStyle="bold"
-                android:textSize="20sp"
+                android:hint="Exam Date"
                 android:textColor="@color/white"
-                android:textColorHint="@color/white"/>
-            <TextView
-                android:id="@+id/viewModule"
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white"
+                app:layout_constraintEnd_toEndOf="@+id/moduleLeaderEmailTxt"
+                app:layout_constraintHorizontal_bias="0.458"
+                app:layout_constraintStart_toStartOf="@+id/moduleLeaderEmailTxt"
+                app:layout_constraintTop_toBottomOf="@+id/moduleLeaderEmailTxt">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/viewStudentDate"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:enabled="false"
+                    android:fontFamily="@font/forumregular"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    app:hintTextColor="@color/white" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/viewModule1"
                 android:layout_width="match_parent"
-                android:layout_height="55dp"
-                android:background="@drawable/login_forms"
-                android:hint="View Module"
-                android:layout_marginTop="7dp"
-                android:padding="15dp"
+                android:layout_height="wrap_content"
                 android:fontFamily="@font/forumregular"
-                android:textStyle="bold"
-                android:textSize="20sp"
+                android:hint="Student Email"
                 android:textColor="@color/white"
-                android:textColorHint="@color/white"/>
+                android:textColorHint="@color/white"
+                app:hintTextColor="@color/white"
+                app:layout_constraintEnd_toEndOf="@+id/moduleLeaderEmailTxt"
+                app:layout_constraintHorizontal_bias="0.458"
+                app:layout_constraintStart_toStartOf="@+id/moduleLeaderEmailTxt"
+                app:layout_constraintTop_toBottomOf="@+id/moduleLeaderEmailTxt">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/viewModule"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:clickable="false"
+                    android:enabled="false"
+                    android:fontFamily="@font/forumregular"
+                    android:textColor="@color/white"
+                    android:textColorHint="@color/white"
+                    app:hintTextColor="@color/white" />
+
+            </com.google.android.material.textfield.TextInputLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -87,16 +146,16 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:padding="3dp"
-                    android:gravity="center">
+                    android:gravity="center"
+                    android:padding="3dp">
 
                     <Button
                         android:id="@+id/viewDeleteBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginRight="50dp"
                         android:background="@drawable/card_btns_bg"
                         android:fontFamily="@font/poppinssemibold"
-                        android:layout_marginRight="50dp"
                         android:text="Delete"
                         android:textAllCaps="false"
                         android:textColor="@color/white" />
@@ -105,9 +164,9 @@
                         android:id="@+id/editStudentBtn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_marginLeft="50dp"
                         android:background="@drawable/card_btns_bg"
                         android:fontFamily="@font/poppinssemibold"
-                        android:layout_marginLeft="50dp"
                         android:text="Edit"
                         android:textAllCaps="false"
                         android:textColor="@color/white" />

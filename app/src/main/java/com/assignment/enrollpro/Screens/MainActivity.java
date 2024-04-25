@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         bottomNavigationView = findViewById(R.id.bttm_nav);
-        fragmentContainer = findViewById(R.id.fragment_container);
+//        fragmentContainer = findViewById(R.id.fragment_container);
 
         // Set the default activity
         launchLectureActivity();
