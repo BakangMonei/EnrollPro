@@ -1,16 +1,19 @@
 package com.assignment.enrollpro.Adapters;
 
+import android.annotation.SuppressLint;
 import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 import com.assignment.enrollpro.Model.BookExam;
 import com.assignment.enrollpro.R;
 
+import java.util.ArrayList;
 import java.util.List;
 /**
  * @Author: One Kgarebe Lerole
@@ -20,6 +23,8 @@ import java.util.List;
  */
 public class DeletedBookingAdapter extends RecyclerView.Adapter<DeletedBookingAdapter.ViewHolder> {
     private List<BookExam> bookings;
+    private List<Integer> selectedItems = new ArrayList<>();
+
 
     public DeletedBookingAdapter(List<BookExam> bookings) {
         this.bookings = bookings;
@@ -33,10 +38,38 @@ public class DeletedBookingAdapter extends RecyclerView.Adapter<DeletedBookingAd
         return new DeletedBookingAdapter.ViewHolder(view);
     }
 
+    // Add this method to return the selected items
+    public List<Integer> getSelectedItems() {
+        return selectedItems;
+    }
+
+
     @Override
-    public void onBindViewHolder(@NonNull DeletedBookingAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull DeletedBookingAdapter.ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         BookExam booking = bookings.get(position);
         holder.bind(booking);
+        holder.itemView.setActivated(selectedItems.contains(position));
+        holder.checkBox.setChecked(selectedItems.contains(position));
+        holder.checkBox.setVisibility(selectedItems.size() > 0 ? View.VISIBLE : View.GONE);
+
+        holder.itemView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                toggleSelection(position);
+                return true;
+            }
+        });
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (selectedItems.size() > 0) {
+                    toggleSelection(position);
+                } else {
+                    // Handle regular click action
+                }
+            }
+        });
     }
 
     @Override
@@ -44,13 +77,34 @@ public class DeletedBookingAdapter extends RecyclerView.Adapter<DeletedBookingAd
         return bookings.size();
     }
 
-    public static class ViewHolder extends RecyclerView.ViewHolder {
+    public void toggleSelection(int position) {
+        if (selectedItems.contains(position)) {
+            selectedItems.remove(Integer.valueOf(position));
+        } else {
+            selectedItems.add(position);
+        }
+        notifyItemChanged(position);
+    }
+
+
+
+    public void showOptions(View itemView, int position) {
+        // Show options for the swiped item
+        Toast.makeText(itemView.getContext(), "Options for item " + position, Toast.LENGTH_SHORT).show();
+    }
+
+
+    public void deleteItem(int position) {
+        bookings.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    public class ViewHolder extends RecyclerView.ViewHolder {
         TextView studentEmailTextView;
         TextView studentIDTextView;
         TextView dateAndTimeTextView;
         TextView moduleTextView;
-
-        Button restoreBtn;
+        CheckBox checkBox;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -58,23 +112,37 @@ public class DeletedBookingAdapter extends RecyclerView.Adapter<DeletedBookingAd
             studentIDTextView = itemView.findViewById(R.id.viewStudentID);
             dateAndTimeTextView = itemView.findViewById(R.id.viewStudentDate);
             moduleTextView = itemView.findViewById(R.id.viewModule);
-            restoreBtn = itemView.findViewById(R.id.restoreBtn);
+            checkBox = itemView.findViewById(R.id.checkBox);
 
-
-            restoreBtn.setOnClickListener(new View.OnClickListener() {
+            // Set click listener for checkbox
+            checkBox.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Toast.makeText(v.getContext(), "Restore", Toast.LENGTH_SHORT).show();
+                    toggleSelection(getAdapterPosition());
                 }
             });
 
+            // Set click listener for regular item click
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (selectedItems.size() > 0) {
+                        toggleSelection(getAdapterPosition());
+                    } else {
+                        // Handle regular click action
+                    }
+                }
+            });
         }
+
         public void bind(BookExam booking) {
             studentEmailTextView.setText(booking.getStudentEmail());
             studentIDTextView.setText(booking.getStudentIDNumber());
             dateAndTimeTextView.setText(booking.getDateAndTime());
             moduleTextView.setText(booking.getModuleName());
 
+            // Update checkbox state based on selectedItems
+            checkBox.setChecked(selectedItems.contains(getAdapterPosition()));
         }
     }
 }

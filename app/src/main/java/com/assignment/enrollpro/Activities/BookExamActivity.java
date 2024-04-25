@@ -1,5 +1,11 @@
 package com.assignment.enrollpro.Activities;
 
+/**
+ * @Author: One Kgarebe Lerole
+ * @Date: February 2024
+ * @Time: 10:00 am
+ * @Location: University Of Botswana, Gaborone, Botswana
+ */
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;

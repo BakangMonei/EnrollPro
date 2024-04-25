@@ -30,7 +30,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/dashboardTxt"
-        android:layout_marginTop="30dp"
+        android:layout_marginTop="40dp"
         app:cardBackgroundColor="@color/figma_dark_gray"
         app:cardCornerRadius="8dp"
         app:cardElevation="4dp"
@@ -95,50 +95,15 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    <LinearLayout
-        android:id="@+id/scanQRLinearLayout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="50dp"
-        android:background="@drawable/icon_bg_menu"
-        android:orientation="vertical"
 
-        android:padding="5dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/cardView">
-
-        <ImageView
-            android:id="@+id/ScanImageView"
-            android:layout_width="120dp"
-            android:layout_height="100dp"
-            android:src="@drawable/qr_scanner"
-            android:layout_gravity="center"
-            tools:layout_editor_absoluteX="44dp"
-            tools:layout_editor_absoluteY="212dp" />
-
-        <TextView
-            android:id="@+id/scanQRTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="5dp"
-            android:text="Check Student \nQRCode"
-            android:textAlignment="center"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@+id/bookExamImageView"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="@+id/bookExamImageView"
-            app:layout_constraintTop_toBottomOf="@+id/bookExamImageView" />
-    </LinearLayout>
 
 
     <LinearLayout
         android:id="@+id/itemsViewLinearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:layout_marginEnd="30dp"
+        android:layout_marginTop="150dp"
+        android:layout_marginEnd="40dp"
         android:background="@drawable/icon_bg_menu"
         android:orientation="vertical"
         android:padding="5dp"
@@ -174,13 +139,13 @@
         android:id="@+id/deletedItemsLinearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="150dp"
         android:background="@drawable/icon_bg_menu"
         android:orientation="vertical"
         android:padding="5dp"
-        app:layout_constraintEnd_toEndOf="@+id/itemsViewLinearLayout"
-        app:layout_constraintStart_toStartOf="@+id/scanQRLinearLayout"
-        app:layout_constraintTop_toBottomOf="@+id/scanQRLinearLayout">
+        android:layout_marginStart="40dp"
+        app:layout_constraintStart_toStartOf="@+id/cardView"
+        app:layout_constraintTop_toBottomOf="@+id/cardView">
 
         <ImageView
             android:id="@+id/deletedItemsImageView"
@@ -208,6 +173,7 @@
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:layout_width="match_parent"
+        android:id="@+id/bttm_nav_lec"
         android:layout_height="wrap_content"
         android:background="@color/figma_dark_gray"
         app:itemIconTint="@color/white"

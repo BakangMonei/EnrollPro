@@ -1,23 +1,22 @@
 package com.assignment.enrollpro.Utils;
-
 /**
  * @Author: One Kgarebe Lerole
  * @Date: February 2024
  * @Time: 10:00 am
  * @Location: University Of Botswana, Gaborone, Botswana
  */
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.assignment.enrollpro.Adapters.ViewBookingAdapter;
+import com.assignment.enrollpro.Adapters.DeletedBookingAdapter;
 
-public class SwipeToSelectCallback extends ItemTouchHelper.Callback {
 
-    private final ViewBookingAdapter mAdapter;
+public class DeleteSwipeToSelectCallback extends ItemTouchHelper.Callback {
 
-    public SwipeToSelectCallback(ViewBookingAdapter adapter) {
+    private final DeletedBookingAdapter mAdapter;
+
+    public DeleteSwipeToSelectCallback(DeletedBookingAdapter adapter) {
         mAdapter = adapter;
     }
 
@@ -49,4 +48,3 @@ public class SwipeToSelectCallback extends ItemTouchHelper.Callback {
         return true;
     }
 }
-

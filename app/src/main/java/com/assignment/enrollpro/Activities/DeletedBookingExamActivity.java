@@ -1,22 +1,23 @@
 package com.assignment.enrollpro.Activities;
-/*
- * This is where we view 'Deleted Records' and be able to restore them
- * It is not yet implemented, we should be able to RESTORE
- * */
-
-import static android.content.ContentValues.TAG;
+/**
+ * @Author: One Kgarebe Lerole
+ * @Date: February 2024
+ * @Time: 10:00 am
+ * @Location: University Of Botswana, Gaborone, Botswana
+ */
 
 import android.os.Bundle;
 import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.assignment.enrollpro.Adapters.ViewBookingAdapter;
+import com.assignment.enrollpro.Adapters.DeletedBookingAdapter;
 import com.assignment.enrollpro.Model.BookExam;
 import com.assignment.enrollpro.R;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.assignment.enrollpro.Utils.DeleteSwipeToSelectCallback;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -26,11 +27,11 @@ import java.util.List;
 
 public class DeletedBookingExamActivity extends AppCompatActivity {
 
+    private static final String TAG = "DeletedBookingExamActivity";
+
     private RecyclerView recyclerView;
-    private ViewBookingAdapter adapter;
+    private DeletedBookingAdapter adapterD;
     private List<BookExam> bookings;
-
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +42,14 @@ public class DeletedBookingExamActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         bookings = new ArrayList<>();
-        adapter = new ViewBookingAdapter(bookings);
-        recyclerView.setAdapter(adapter);
+        adapterD = new DeletedBookingAdapter(bookings);
+        recyclerView.setAdapter(adapterD);
 
-        // Fetch data from FireStore
+
+
+        // Fetch data from Firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("examsDeleted")
+        db.collection("deleted")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -54,10 +57,16 @@ public class DeletedBookingExamActivity extends AppCompatActivity {
                             BookExam booking = document.toObject(BookExam.class);
                             bookings.add(booking);
                         }
-                        adapter.notifyDataSetChanged();
+                        adapterD.notifyDataSetChanged();
                     } else {
                         Log.d(TAG, "Error getting documents: ", task.getException());
                     }
                 });
+
+        // Attach swipe-to-select functionality to RecyclerView
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(new DeleteSwipeToSelectCallback(adapterD));
+        itemTouchHelper.attachToRecyclerView(recyclerView);
     }
+
+
 }

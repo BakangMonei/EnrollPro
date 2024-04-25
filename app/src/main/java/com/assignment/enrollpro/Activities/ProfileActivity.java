@@ -1,36 +1,34 @@
-package com.assignment.enrollpro.Screens;
+package com.assignment.enrollpro.Activities;
+
 /**
  * @Author: One Kgarebe Lerole
  * @Date: February 2024
  * @Time: 10:00 am
  * @Location: University Of Botswana, Gaborone, Botswana
  */
-import static android.content.ContentValues.TAG;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
+
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
-import android.Manifest;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
-
-import com.assignment.enrollpro.Activities.DeletedBookingExamActivity;
-import com.assignment.enrollpro.Activities.ViewBookingExamActivity;
 import com.assignment.enrollpro.Authentications.LoginActivity;
-import com.assignment.enrollpro.Activities.ProfileActivity;
 import com.assignment.enrollpro.R;
+import com.assignment.enrollpro.Screens.LectureActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -48,33 +46,39 @@ import com.google.zxing.integration.android.IntentResult;
 import java.util.HashMap;
 import java.util.Map;
 
-public class LectureActivity extends AppCompatActivity {
+public class ProfileActivity extends AppCompatActivity {
 
-    private static final int REQUEST_CAMERA = 1;
-    ImageView itemsViewImageView, deletedItemsImageView;
-    FirebaseFirestore db;
-
-    TextView  emailTextView, usernameTextView;
-    FirebaseAuth mAuth;
+    private TextView tvEmail, tvFirstname, tvLastname, tvPhoneNumber, tvUsername, tvModules;
+    private FirebaseAuth mAuth;
+    private FirebaseFirestore db;
     BottomNavigationView bottomNavigationView;
+
+    ImageView back_btn;
+    private static final int REQUEST_CAMERA = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_lecture);
-        db = FirebaseFirestore.getInstance();
-        mAuth = FirebaseAuth.getInstance();
+        setContentView(R.layout.activity_profile);
 
-        deletedItemsImageView = (ImageView) findViewById(R.id.deletedItemsImageView);
-        deletedItemsImageView.setOnClickListener(new View.OnClickListener() {
+        back_btn = (ImageView) findViewById(R.id.back_btn);
+        back_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                Intent x = new Intent(LectureActivity.this, DeletedBookingExamActivity.class);
+                Intent x = new Intent(ProfileActivity.this, LectureActivity.class);
                 startActivity(x);
             }
         });
 
+        tvEmail = findViewById(R.id.tv_email);
+        tvFirstname = findViewById(R.id.tv_firstname);
+        tvLastname = findViewById(R.id.tv_lastname);
+        tvPhoneNumber = findViewById(R.id.tv_phone_number);
+        tvUsername = findViewById(R.id.tv_username);
+        tvModules = findViewById(R.id.tv_modules);
+
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
         bottomNavigationView = findViewById(R.id.bttm_nav_lec);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -96,10 +100,10 @@ public class LectureActivity extends AppCompatActivity {
                     return true;
                 } else if (item.getItemId() == R.id.nav_qrScanner) {
                     // Handle QR Scanner menu item click
-                    Toast.makeText(LectureActivity.this, "Scanner Clicked", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(ProfileActivity.this, "Scanner Clicked", Toast.LENGTH_SHORT).show();
 
-                    if (ContextCompat.checkSelfPermission(LectureActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(LectureActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
+                    if (ContextCompat.checkSelfPermission(ProfileActivity.this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(ProfileActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
                     } else {
                         initiateScan();
                     }
@@ -109,31 +113,106 @@ public class LectureActivity extends AppCompatActivity {
             }
         });
 
-        emailTextView = (TextView) findViewById(R.id.emailTextView);
-        usernameTextView = (TextView) findViewById(R.id.usernameTextView);
-        // Get current user's email and username from Firestore
-        getCurrentUserDetails();
 
-        itemsViewImageView = (ImageView) findViewById(R.id.itemsViewImageView);
-        itemsViewImageView.setOnClickListener(new View.OnClickListener() {
+
+        String userId = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DocumentReference userRef = FirebaseFirestore.getInstance().collection("admin").document(userId);
+        userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LectureActivity.this, ViewBookingExamActivity.class);
-                startActivity(intent);
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        // Get the user's data from the document
+                        String email = document.getString("email");
+                        String firstname = document.getString("firstname");
+                        String lastname = document.getString("lastname");
+                        String phoneNumber = document.getString("phoneNumber");
+                        String username = document.getString("username");
+                        String lecture = document.getString("lecture");
+                        String[] modules = (String[]) document.get("modules");
 
+                        // Display the user's data in the UI
+                        tvEmail.setText("Email: " + email);
+                        tvFirstname.setText("Firstname: " + firstname);
+                        tvLastname.setText("Lastname: " + lastname);
+                        tvPhoneNumber.setText("Phone Number: " + phoneNumber);
+                        tvUsername.setText("Username: " + username);
+
+                        if (lecture!= null) {
+                            tvModules.setText("Lecture: " + lecture);
+                        } else {
+                            StringBuilder modulesText = new StringBuilder("Modules: ");
+                            for (String module : modules) {
+                                modulesText.append(module).append(", ");
+                            }
+                            tvModules.setText(modulesText.toString());
+                        }
+                    } else {
+                        Log.d("ProfileActivity", "No such document");
+                    }
+                } else {
+                    Log.d("ProfileActivity", "get failed with ", task.getException());
+                }
             }
         });
+    }
+
+    private void openQRCodeScanner() {
+        Toast.makeText(ProfileActivity.this, "Scanner Clicked", Toast.LENGTH_SHORT).show();
+    }
+
+
+
+    private void launchLectureActivity() {
+        Toast.makeText(ProfileActivity.this, "Home Clicked", Toast.LENGTH_SHORT).show();
+        Intent x = new Intent(ProfileActivity.this, LectureActivity.class);
+        startActivity(x);
+    }
+    private void launchProfileActivity() {
+        Toast.makeText(ProfileActivity.this, "Profile Clicked", Toast.LENGTH_SHORT).show();
 
     }
+
+    private void launchSettingsActivity() {
+        Toast.makeText(ProfileActivity.this, "Logout Clicked", Toast.LENGTH_SHORT).show();
+    }
+
+
+    // Add this method to show the logout dialog box
+    private void showLogoutDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Logout");
+        builder.setMessage("Are you sure you want to logout?");
+        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                logout();
+            }
+        });
+        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing
+            }
+        });
+        builder.show();
+    }
+    // Logout Function
+    public void logout() {
+        FirebaseAuth.getInstance().signOut();
+        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+        finish();
+    }
+
 
     private void initiateScan() {
         IntentIntegrator integrator = new IntentIntegrator(this);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
-        integrator.setPrompt("Scan Student QR Code");
+        integrator.setPrompt("Scan a QR Code");
         integrator.setCameraId(0);
-        integrator.setBeepEnabled(true);
-        integrator.setOrientationLocked(false);
-        integrator.setBarcodeImageEnabled(true);
+        integrator.setBeepEnabled(false);
+        integrator.setBarcodeImageEnabled(false);
         integrator.initiateScan();
     }
 
@@ -198,9 +277,9 @@ public class LectureActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<DocumentReference> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(LectureActivity.this, "Added to approved collection", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProfileActivity.this, "Added to approved collection", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(LectureActivity.this, "Failed to add to approved collection", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProfileActivity.this, "Failed to add to approved collection", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
@@ -233,13 +312,13 @@ public class LectureActivity extends AppCompatActivity {
             @Override
             public void onSuccess(Void aVoid) {
                 // QR code file deleted successfully
-                Toast.makeText(LectureActivity.this, "QR code deleted", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileActivity.this, "QR code deleted", Toast.LENGTH_SHORT).show();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 // Failed to delete QR code file
-                Toast.makeText(LectureActivity.this, "Failed to delete QR code", Toast.LENGTH_SHORT).show();
+                Toast.makeText(ProfileActivity.this, "Failed to delete QR code", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -284,103 +363,17 @@ public class LectureActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<DocumentReference> task) {
                         if (task.isSuccessful()) {
-                            Toast.makeText(LectureActivity.this, "Successfully Deleted", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProfileActivity.this, "Successfully Deleted", Toast.LENGTH_SHORT).show();
                         } else {
-                            Toast.makeText(LectureActivity.this, "Failed to add to reject collection", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(ProfileActivity.this, "Failed to add to reject collection", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
     }
 
-    private void getCurrentUserDetails() {
-        String currentUserId = mAuth.getCurrentUser().getUid();
-        DocumentReference userRef = db.collection("admin").document(currentUserId);
-        userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document != null && document.exists()) {
-                        String email = document.getString("email");
-                        String firstName = document.getString("firstname");
-                        String lastName = document.getString("lastname");
-
-                        emailTextView.setText(email);
-                        usernameTextView.setText("Welcome: " + firstName + " " + lastName);
-                    } else {
-                        // If the user is not found in the admin collection, check the lectures collection
-                        DocumentReference userRef1 = db.collection("lectures").document(currentUserId);
-                        userRef1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot document = task.getResult();
-                                    if (document != null && document.exists()) {
-                                        String email = document.getString("email");
-                                        String firstName = document.getString("firstname");
-                                        String lastName = document.getString("lastname");
-
-                                        emailTextView.setText(email);
-                                        usernameTextView.setText("Welcome: " + firstName + " " + lastName);
-                                    } else {
-                                        Log.d(TAG, "No such document");
-                                    }
-                                } else {
-                                    Log.d(TAG, "get failed with ", task.getException());
-                                }
-                            }
-                        });
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
-    }
-
-    private void openQRCodeScanner() {
-        Toast.makeText(LectureActivity.this, "Scanner Clicked", Toast.LENGTH_SHORT).show();
-    }
-
-    private void launchLectureActivity() {
-        Toast.makeText(LectureActivity.this, "Home Clicked", Toast.LENGTH_SHORT).show();
-    }
-
-    private void launchProfileActivity() {
-        Toast.makeText(LectureActivity.this, "Profile Clicked", Toast.LENGTH_SHORT).show();
-        Intent x = new Intent(LectureActivity.this, ProfileActivity.class);
-        startActivity(x);
-        finish();
-    }
-
-    private void launchSettingsActivity() {
-        Toast.makeText(LectureActivity.this, "Logout Clicked", Toast.LENGTH_SHORT).show();
-    }
-
-
-    // Add this method to show the logout dialog box
-    private void showLogoutDialog() {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Logout");
-        builder.setMessage("Are you sure you want to logout?");
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                logout();
-            }
-        });
-        builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                // Do nothing
-            }
-        });
-        builder.show();
-    }
-    // Logout Function
-    public void logout() {
-        FirebaseAuth.getInstance().signOut();
-        startActivity(new Intent(getApplicationContext(), LoginActivity.class));
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
         finish();
     }
 }

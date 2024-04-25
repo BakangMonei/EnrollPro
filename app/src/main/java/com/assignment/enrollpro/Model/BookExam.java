@@ -1,5 +1,11 @@
 package com.assignment.enrollpro.Model;
 
+/**
+ * @Author: One Kgarebe Lerole
+ * @Date: February 2024
+ * @Time: 10:00 am
+ * @Location: University Of Botswana, Gaborone, Botswana
+ */
 public class BookExam {
     private String documentId, Id, moduleLeaderEmail, moduleLeaderName, studentEmail, studentIDNumber, firstName, lastName,
             phoneNumber, examRoom, faculty, moduleName, dateAndTime, qrCodeValue, table;

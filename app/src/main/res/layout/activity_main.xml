@@ -7,25 +7,18 @@
     android:background="@color/black"
     tools:context=".Screens.MainActivity">
 
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/framelay"
-        />
 
 
-
-    <com.google.android.material.bottomnavigation.BottomNavigationView
-        android:id="@+id/bttm_nav"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="0dp"
-        android:layout_below="@+id/framelay"
-        android:layout_marginEnd="0dp"
-        android:background="@drawable/tab_corners"
-        app:itemIconTint="@color/white"
-        app:itemTextColor="@color/white"
-        app:menu="@menu/bottom_navigation" />
+<!--    <com.google.android.material.bottomnavigation.BottomNavigationView-->
+<!--        android:id="@+id/bttm_nav_lec"-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:layout_alignParentBottom="true"-->
+<!--        android:layout_marginStart="0dp"-->
+<!--        android:layout_marginEnd="0dp"-->
+<!--        android:background="@drawable/tab_corners"-->
+<!--        app:itemIconTint="@color/white"-->
+<!--        app:itemTextColor="@color/white"-->
+<!--        app:menu="@menu/bottom_navigation" />-->
 
 </RelativeLayout>
