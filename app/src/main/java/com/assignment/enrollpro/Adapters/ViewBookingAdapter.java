@@ -42,8 +42,8 @@ public class ViewBookingAdapter extends RecyclerView.Adapter<ViewBookingAdapter.
         return selectedItems;
     }
 
-    @Override
 
+    @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, @SuppressLint("RecyclerView") int position) {
         BookExam booking = bookings.get(position);
         holder.bind(booking);

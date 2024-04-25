@@ -31,15 +31,16 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
+
 import java.util.HashMap;
 import java.util.Map;
 
 public class LectureActivity extends AppCompatActivity {
 
+    private static final int REQUEST_CAMERA = 1;
     private ImageView ScanImageView, itemsViewImageView;
     private TextView scanQRTextView, itemsViewTextView;
     private FirebaseFirestore db;
-    private static final int REQUEST_CAMERA = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +104,8 @@ public class LectureActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Handle REJECT button click
+                        String qrCodeData = result.getContents();
+                        addToDeletedCollection(qrCodeData);
                     }
                 });
                 builder.create().show();
@@ -196,5 +199,41 @@ public class LectureActivity extends AppCompatActivity {
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
+    }
+
+
+    // Store to Delete
+    private void addToDeletedCollection(String qrCodeData) {
+        // Parse the QR code data into a map
+        Map<String, String> qrCodeMap = parseQRCodeData(qrCodeData);
+
+        // Create a new map for the approved data
+        Map<String, Object> approvedData = new HashMap<>();
+        approvedData.put("dateAndTime", String.valueOf(System.currentTimeMillis()));
+        approvedData.put("examRoom", qrCodeMap.get("Room"));
+        approvedData.put("faculty", qrCodeMap.get("Faculty"));
+        approvedData.put("firstName", qrCodeMap.get("First Name"));
+        approvedData.put("lastName", qrCodeMap.get("Last Name"));
+        approvedData.put("moduleLeaderEmail", qrCodeMap.get("Module Leader Email"));
+        approvedData.put("moduleLeaderName", qrCodeMap.get("Module Leader Name"));
+        approvedData.put("moduleName", qrCodeMap.get("Module Name"));
+        approvedData.put("phoneNumber", qrCodeMap.get("Phone Number"));
+        approvedData.put("studentEmail", qrCodeMap.get("Student Email"));
+        approvedData.put("studentIDNumber", qrCodeMap.get("Student ID Number"));
+        approvedData.put("table", qrCodeMap.get("Table"));
+
+        // Add the deleted data to Firestore
+        db.collection("deleted")
+                .add(approvedData)
+                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(LectureActivity.this, "Successfully Deleted", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(LectureActivity.this, "Failed to add to reject collection", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 }
