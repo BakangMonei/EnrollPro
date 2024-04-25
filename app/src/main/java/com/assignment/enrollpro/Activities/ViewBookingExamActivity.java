@@ -27,13 +27,40 @@ import java.util.ArrayList;
 import java.util.List;
 
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.ItemTouchHelper;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import android.content.Intent;
+import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.util.Pair;
+import com.assignment.enrollpro.Adapters.ViewBookingAdapter;
+import com.assignment.enrollpro.Model.BookExam;
+import com.assignment.enrollpro.R;
+import com.assignment.enrollpro.Screens.LectureActivity;
+import com.assignment.enrollpro.Utils.SwipeToSelectCallback;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ViewBookingExamActivity extends AppCompatActivity {
+
+    private static final String TAG = "ViewBookingExamActivity";
 
     private RecyclerView recyclerView;
     private FloatingActionButton floatingActionButton, printFloatingActionButton;
     private ViewBookingAdapter adapter;
     private List<BookExam> bookings;
-
 
     private Button actionButton;
 
@@ -50,24 +77,20 @@ public class ViewBookingExamActivity extends AppCompatActivity {
         recyclerView.setAdapter(adapter);
 
         actionButton = findViewById(R.id.actionButton);
-        actionButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Perform action on selected items
-                List<BookExam> selectedBookings = new ArrayList<>();
-                for (Integer position : adapter.getSelectedItems()) {
-                    selectedBookings.add(bookings.get(position));
-                }
-                // Perform action using selectedBookings list
+        actionButton.setOnClickListener(view -> {
+            // Perform action on selected items
+            List<BookExam> selectedBookings = new ArrayList<>();
+            for (Integer position : adapter.getSelectedItems()) {
+                selectedBookings.add(bookings.get(position));
             }
+            // Perform action using selectedBookings list
         });
-
-
 
         floatingActionButton = findViewById(R.id.floatingActionButton);
         floatingActionButton.setOnClickListener(view -> {
             goToCreateBooking();
         });
+
         printFloatingActionButton = findViewById(R.id.printFloatingActionButton);
         printFloatingActionButton.setOnClickListener(view -> {
             Toast.makeText(ViewBookingExamActivity.this, "Print", Toast.LENGTH_SHORT).show();
@@ -75,7 +98,7 @@ public class ViewBookingExamActivity extends AppCompatActivity {
 
         // Fetch data from Firestore
         FirebaseFirestore db = FirebaseFirestore.getInstance();
-        db.collection("your_collection_name")
+        db.collection("approved")
                 .get()
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
@@ -96,16 +119,7 @@ public class ViewBookingExamActivity extends AppCompatActivity {
 
     public void goToCreateBooking() {
         Intent intent = new Intent(ViewBookingExamActivity.this, BookExamActivity.class);
-        Toast.makeText(ViewBookingExamActivity.this, "Create a Booking", Toast.LENGTH_SHORT).show();
-        startActivity(intent);
-    }
-
-    @Override
-    public void onBackPressed() {
-        // Override back button behavior to move to LectureActivity instead of exiting the app
-        super.onBackPressed();
-        Intent intent = new Intent(ViewBookingExamActivity.this, LectureActivity.class);
+        Toast.makeText(ViewBookingExamActivity.this, "Creating booking", Toast.LENGTH_SHORT).show();
         startActivity(intent);
     }
 }
-

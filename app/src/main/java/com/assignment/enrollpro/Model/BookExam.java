@@ -2,9 +2,9 @@ package com.assignment.enrollpro.Model;
 
 public class BookExam {
     private String documentId, Id, moduleLeaderEmail, moduleLeaderName, studentEmail, studentIDNumber, firstName, lastName,
-            phoneNumber, examRoom, faculty, moduleName, dateAndTime, qrCodeValue;
+            phoneNumber, examRoom, faculty, moduleName, dateAndTime, qrCodeValue, table;
 
-    public BookExam(String id, String moduleLeaderEmail, String moduleLeaderName, String studentEmail, String studentIDNumber, String firstName, String lastName, String phoneNumber, String examRoom, String faculty, String moduleName, String dateAndTime) {
+    public BookExam(String id, String moduleLeaderEmail, String moduleLeaderName, String studentEmail, String studentIDNumber, String firstName, String lastName, String phoneNumber, String examRoom, String faculty, String moduleName, String dateAndTime, String table) {
         Id = id;
         this.moduleLeaderEmail = moduleLeaderEmail;
         this.moduleLeaderName = moduleLeaderName;
@@ -18,6 +18,7 @@ public class BookExam {
         this.moduleName = moduleName;
         this.dateAndTime = dateAndTime;
         this.qrCodeValue = qrCodeValue;
+        this.table = table;
     }
 
 
@@ -136,5 +137,13 @@ public class BookExam {
 
     public void setQrCodeValue(String qrCodeValue) {
         this.qrCodeValue = qrCodeValue;
+    }
+
+    public String getTable() {
+        return table;
+    }
+
+    public void setTable(String table) {
+        this.table = table;
     }
 }

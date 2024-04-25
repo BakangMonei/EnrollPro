@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Button;
 import android.Manifest;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -21,18 +20,17 @@ import androidx.core.content.ContextCompat;
 import com.assignment.enrollpro.Activities.ViewBookingExamActivity;
 import com.assignment.enrollpro.R;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
-
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,6 +46,16 @@ public class LectureActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_lecture);
         db = FirebaseFirestore.getInstance();
+
+        itemsViewImageView = (ImageView) findViewById(R.id.itemsViewImageView);
+        itemsViewImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LectureActivity.this, ViewBookingExamActivity.class);
+                startActivity(intent);
+
+            }
+        });
         ScanImageView = (ImageView) findViewById(R.id.ScanImageView);
 
         ScanImageView.setOnClickListener(new View.OnClickListener() {
@@ -86,6 +94,9 @@ public class LectureActivity extends AppCompatActivity {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         // Handle VERIFY button click
+                        String qrCodeData = result.getContents();
+                        addToApprovedCollection(qrCodeData);
+                        deleteQRCode(qrCodeData);
                     }
                 });
                 builder.setNegativeButton("REJECT", new DialogInterface.OnClickListener() {
@@ -99,6 +110,79 @@ public class LectureActivity extends AppCompatActivity {
         } else {
             super.onActivityResult(requestCode, resultCode, data);
         }
+    }
+
+    private void addToApprovedCollection(String qrCodeData) {
+        // Parse the QR code data into a map
+        Map<String, String> qrCodeMap = parseQRCodeData(qrCodeData);
+
+        // Create a new map for the approved data
+        Map<String, Object> approvedData = new HashMap<>();
+        approvedData.put("dateAndTime", String.valueOf(System.currentTimeMillis()));
+        approvedData.put("examRoom", qrCodeMap.get("Room"));
+        approvedData.put("faculty", qrCodeMap.get("Faculty"));
+        approvedData.put("firstName", qrCodeMap.get("First Name"));
+        approvedData.put("lastName", qrCodeMap.get("Last Name"));
+        approvedData.put("moduleLeaderEmail", qrCodeMap.get("Module Leader Email"));
+        approvedData.put("moduleLeaderName", qrCodeMap.get("Module Leader Name"));
+        approvedData.put("moduleName", qrCodeMap.get("Module Name"));
+        approvedData.put("phoneNumber", qrCodeMap.get("Phone Number"));
+//        approvedData.put("qrCodeImage", qrCodeMap.get("qrCodeImage"));
+        approvedData.put("studentEmail", qrCodeMap.get("Student Email"));
+        approvedData.put("studentIDNumber", qrCodeMap.get("Student ID Number"));
+        approvedData.put("table", qrCodeMap.get("Table"));
+
+        // Add the approved data to Firestore
+        db.collection("approved")
+                .add(approvedData)
+                .addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentReference> task) {
+                        if (task.isSuccessful()) {
+                            Toast.makeText(LectureActivity.this, "Added to approved collection", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(LectureActivity.this, "Failed to add to approved collection", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    // Method to parse the QR code data into a map
+    private Map<String, String> parseQRCodeData(String qrCodeData) {
+        Map<String, String> qrCodeMap = new HashMap<>();
+
+        // Split the QR code data by newline characters
+        String[] lines = qrCodeData.split("\\r?\\n");
+
+        // Loop through the lines and add them to the map
+        for (String line : lines) {
+            String[] keyValue = line.split(":");
+            if (keyValue.length == 2) {
+                qrCodeMap.put(keyValue[0].trim(), keyValue[1].trim());
+            }
+        }
+
+        return qrCodeMap;
+    }
+
+    private void deleteQRCode(String qrCodeData) {
+        // Get a reference to the QR code file in Firebase Storage
+        StorageReference qrCodeRef = FirebaseStorage.getInstance().getReference().child("/" + qrCodeData);
+
+        // Delete the QR code file
+        qrCodeRef.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                // QR code file deleted successfully
+                Toast.makeText(LectureActivity.this, "QR code deleted", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                // Failed to delete QR code file
+                Toast.makeText(LectureActivity.this, "Failed to delete QR code", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
