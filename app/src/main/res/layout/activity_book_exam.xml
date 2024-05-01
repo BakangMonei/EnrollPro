@@ -354,36 +354,35 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/sendQRBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="50dp"
             android:layout_marginTop="2dp"
-            android:background="@drawable/login_btn"
-            android:fontFamily="@font/forumregular"
             android:text="Send QR"
-            android:textAlignment="center"
-            android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold"
+            android:textAlignment="center"
+            app:fontFamily="@font/forumregular"
+            app:backgroundTint="@color/red"
             app:layout_constraintStart_toStartOf="@+id/dateAndTimeEditText2"
             app:layout_constraintTop_toBottomOf="@+id/dateAndTimeEditText2" />
 
-        <Button
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/viewExamsBtn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="2dp"
             android:layout_marginEnd="50dp"
-            android:background="@drawable/login_btn"
-            android:fontFamily="@font/forumregular"
             android:text="View Exams"
-            android:textAlignment="center"
-            android:textColor="@color/white"
             android:textSize="15sp"
             android:textStyle="bold"
+            android:textAlignment="center"
+            app:fontFamily="@font/forumregular"
+            app:backgroundTint="@color/red"
             app:layout_constraintEnd_toEndOf="@+id/dateAndTimeEditText2"
             app:layout_constraintTop_toBottomOf="@+id/dateAndTimeEditText2" />
+
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

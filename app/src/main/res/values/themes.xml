@@ -17,5 +17,9 @@
     <style name="floating_green" parent="Widget.Design.FloatingActionButton">
         <item name="android:foreground">@drawable/qr_scanner</item>
     </style>
+    <style name="CustomMaterialButtonStyle" parent="Widget.MaterialComponents.Button.TextButton">
+        <item name="android:background">@drawable/custom_button_background</item>
+    </style>
+
 
 </resources>

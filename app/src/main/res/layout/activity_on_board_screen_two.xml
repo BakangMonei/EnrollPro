@@ -31,7 +31,7 @@
         android:layout_marginTop="248dp"
         android:fontFamily="@font/gontserratbold"
         android:text="Next"
-        android:textColor="@color/black"
+        android:textColor="@color/red"
         android:textSize="24sp"
         app:layout_constraintStart_toStartOf="@+id/textView2"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />

@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
-import android.widget.EditText;
+import android.widget.*;
 import android.widget.Toast;
 
 import com.assignment.enrollpro.Model.UserDetails;
@@ -32,6 +32,8 @@ public class LoginActivity extends AppCompatActivity {
     private EditText passwordEditText;
     private Button loginButton;
 
+    private TextView forgotPasswordTextView;
+
     FirebaseAuth mAuth;
     FirebaseFirestore db;
 
@@ -43,6 +45,15 @@ public class LoginActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.editTextTextPassword);
         loginButton = findViewById(R.id.loginBtn);
+
+        forgotPasswordTextView = (TextView) findViewById(R.id.forgotPasswordTextView);
+        forgotPasswordTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent x = new Intent(LoginActivity.this, ForgotPassword.class);
+                startActivity(x);
+            }
+        });
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
