@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?> <!-- @Author: Monei Bakang Mothuti -->
+<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -125,7 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:text="Approved Student \nList"
+            android:text="Opening Student \nLists"
             android:textColor="@color/white"
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="@+id/itemsPurchasedImageView"
@@ -152,7 +152,7 @@
             android:layout_width="100dp"
             android:layout_height="100dp"
             android:layout_gravity="center"
-            android:src="@drawable/baseline_library_books_24"
+            android:src="@drawable/qr_scanner"
             tools:layout_editor_absoluteX="44dp"
             tools:layout_editor_absoluteY="212dp" />
 
@@ -163,7 +163,7 @@
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
             android:gravity="center"
-            android:text="Rejected Student \nList"
+            android:text="Scan QRCode For \nVerification"
             android:textColor="@color/white"
             app:layout_constraintEnd_toEndOf="@+id/itemsPurchasedImageView"
             app:layout_constraintHorizontal_bias="1.0"

@@ -7,6 +7,8 @@ package com.assignment.enrollpro.Activities;
  * @Location: University Of Botswana, Gaborone, Botswana
  */
 
+import static android.content.ContentValues.TAG;
+
 import android.Manifest;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -27,6 +29,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.assignment.enrollpro.Authentications.LoginActivity;
+import com.assignment.enrollpro.Model.User;
 import com.assignment.enrollpro.R;
 import com.assignment.enrollpro.Screens.LectureActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -35,9 +38,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -79,6 +85,8 @@ public class ProfileActivity extends AppCompatActivity {
 
         mAuth = FirebaseAuth.getInstance();
         db = FirebaseFirestore.getInstance();
+
+        getCurrentUserInformation();
         bottomNavigationView = findViewById(R.id.bttm_nav_lec);
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -98,17 +106,8 @@ public class ProfileActivity extends AppCompatActivity {
 
                     showLogoutDialog();
                     return true;
-                } else if (item.getItemId() == R.id.nav_qrScanner) {
-                    // Handle QR Scanner menu item click
-                    Toast.makeText(ProfileActivity.this, "Scanner Clicked", Toast.LENGTH_SHORT).show();
-
-                    if (ContextCompat.checkSelfPermission(ProfileActivity.this, android.Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(ProfileActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
-                    } else {
-                        initiateScan();
-                    }
-                    return true;
                 }
+
                 return false;
             }
         });
@@ -375,5 +374,47 @@ public class ProfileActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         finish();
+    }
+
+    private void getCurrentUserInformation() {
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
+        if (mAuth.getCurrentUser()!= null) {
+            String currentUserEmail = mAuth.getCurrentUser().getEmail();
+
+            CollectionReference userRef = db.collection("admin");
+            Query query = userRef.whereEqualTo("email", currentUserEmail);
+
+            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        if (!querySnapshot.isEmpty()) {
+                            DocumentSnapshot document = querySnapshot.getDocuments().get(0);
+                            User user = document.toObject(User.class);
+                            if (user!= null) {
+                                tvEmail.setText("Email: " + user.getEmail());
+                                tvFirstname.setText("Firstname: " + user.getFirstname());
+                                tvLastname.setText("Lastname: " + user.getLastname());
+                                tvPhoneNumber.setText("Phone Number: " + user.getPhoneNumber());
+                                tvUsername.setText("Username: " + user.getUsername());
+
+                                // Set other fields here
+                            } else {
+                                Log.d(TAG, "User object is null");
+                            }
+                        } else {
+                            Log.d(TAG, "No such document");
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                    }
+                }
+            });
+        } else {
+            Log.d(TAG, "Current user is null");
+        }
     }
 }

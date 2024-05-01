@@ -30,6 +30,7 @@ import com.assignment.enrollpro.Activities.DeletedBookingExamActivity;
 import com.assignment.enrollpro.Activities.ViewBookingExamActivity;
 import com.assignment.enrollpro.Authentications.LoginActivity;
 import com.assignment.enrollpro.Activities.ProfileActivity;
+import com.assignment.enrollpro.Model.User;
 import com.assignment.enrollpro.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -37,9 +38,12 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.zxing.integration.android.IntentIntegrator;
@@ -65,13 +69,21 @@ public class LectureActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         mAuth = FirebaseAuth.getInstance();
 
+        getCurrentUserInformation();
+
         deletedItemsImageView = (ImageView) findViewById(R.id.deletedItemsImageView);
         deletedItemsImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Intent x = new Intent(LectureActivity.this, DeletedBookingExamActivity.class);
-                startActivity(x);
+//                 Handle QR Scanner menu item click
+                    Toast.makeText(LectureActivity.this, "Scanner Clicked", Toast.LENGTH_SHORT).show();
+
+                    if (ContextCompat.checkSelfPermission(LectureActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+                        ActivityCompat.requestPermissions(LectureActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
+                    } else {
+                        initiateScan();
+                    }
             }
         });
 
@@ -94,17 +106,18 @@ public class LectureActivity extends AppCompatActivity {
 
                     showLogoutDialog();
                     return true;
-                } else if (item.getItemId() == R.id.nav_qrScanner) {
-                    // Handle QR Scanner menu item click
-                    Toast.makeText(LectureActivity.this, "Scanner Clicked", Toast.LENGTH_SHORT).show();
-
-                    if (ContextCompat.checkSelfPermission(LectureActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-                        ActivityCompat.requestPermissions(LectureActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
-                    } else {
-                        initiateScan();
-                    }
-                    return true;
                 }
+//                else if (item.getItemId() == R.id.nav_qrScanner) {
+//                    // Handle QR Scanner menu item click
+//                    Toast.makeText(LectureActivity.this, "Scanner Clicked", Toast.LENGTH_SHORT).show();
+//
+//                    if (ContextCompat.checkSelfPermission(LectureActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
+//                        ActivityCompat.requestPermissions(LectureActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
+//                    } else {
+//                        initiateScan();
+//                    }
+//                    return true;
+//                }
                 return false;
             }
         });
@@ -112,13 +125,13 @@ public class LectureActivity extends AppCompatActivity {
         emailTextView = (TextView) findViewById(R.id.emailTextView);
         usernameTextView = (TextView) findViewById(R.id.usernameTextView);
         // Get current user's email and username from Firestore
-        getCurrentUserDetails();
+
 
         itemsViewImageView = (ImageView) findViewById(R.id.itemsViewImageView);
         itemsViewImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(LectureActivity.this, ViewBookingExamActivity.class);
+                Intent intent = new Intent(LectureActivity.this, MainActivity.class);
                 startActivity(intent);
 
             }
@@ -292,51 +305,7 @@ public class LectureActivity extends AppCompatActivity {
                 });
     }
 
-    private void getCurrentUserDetails() {
-        String currentUserId = mAuth.getCurrentUser().getUid();
-        DocumentReference userRef = db.collection("admin").document(currentUserId);
-        userRef.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if (task.isSuccessful()) {
-                    DocumentSnapshot document = task.getResult();
-                    if (document != null && document.exists()) {
-                        String email = document.getString("email");
-                        String firstName = document.getString("firstname");
-                        String lastName = document.getString("lastname");
 
-                        emailTextView.setText(email);
-                        usernameTextView.setText("Welcome: " + firstName + " " + lastName);
-                    } else {
-                        // If the user is not found in the admin collection, check the lectures collection
-                        DocumentReference userRef1 = db.collection("lectures").document(currentUserId);
-                        userRef1.get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if (task.isSuccessful()) {
-                                    DocumentSnapshot document = task.getResult();
-                                    if (document != null && document.exists()) {
-                                        String email = document.getString("email");
-                                        String firstName = document.getString("firstname");
-                                        String lastName = document.getString("lastname");
-
-                                        emailTextView.setText(email);
-                                        usernameTextView.setText("Welcome: " + firstName + " " + lastName);
-                                    } else {
-                                        Log.d(TAG, "No such document");
-                                    }
-                                } else {
-                                    Log.d(TAG, "get failed with ", task.getException());
-                                }
-                            }
-                        });
-                    }
-                } else {
-                    Log.d(TAG, "get failed with ", task.getException());
-                }
-            }
-        });
-    }
 
     private void openQRCodeScanner() {
         Toast.makeText(LectureActivity.this, "Scanner Clicked", Toast.LENGTH_SHORT).show();
@@ -383,4 +352,43 @@ public class LectureActivity extends AppCompatActivity {
         startActivity(new Intent(getApplicationContext(), LoginActivity.class));
         finish();
     }
+
+    private void getCurrentUserInformation() {
+        mAuth = FirebaseAuth.getInstance();
+        db = FirebaseFirestore.getInstance();
+
+        if (mAuth.getCurrentUser()!= null) {
+            String currentUserEmail = mAuth.getCurrentUser().getEmail();
+
+            CollectionReference userRef = db.collection("admin");
+            Query query = userRef.whereEqualTo("email", currentUserEmail);
+
+            query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                    if (task.isSuccessful()) {
+                        QuerySnapshot querySnapshot = task.getResult();
+                        if (!querySnapshot.isEmpty()) {
+                            DocumentSnapshot document = querySnapshot.getDocuments().get(0);
+                            User user = document.toObject(User.class);
+                            if (user!= null) {
+                                emailTextView.setText("Email: " + user.getEmail());
+                                usernameTextView.setText("Username: " + user.getFirstname() + " " + user.getLastname());
+                            } else {
+                                Log.d(TAG, "User object is null");
+                            }
+                        } else {
+                            Log.d(TAG, "No such document");
+                        }
+                    } else {
+                        Log.d(TAG, "get failed with ", task.getException());
+                    }
+                }
+            });
+        } else {
+            Log.d(TAG, "Current user is null");
+        }
+    }
+
+
 }
