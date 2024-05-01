@@ -14,7 +14,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="336dp"
         android:fontFamily="@font/gontserratbold"
-        android:text="Make Exam Booking for your \nstudents easy and fast"
+        android:text="Make Exam Scheduling for your \nStudents easy and fast"
         android:textAlignment="center"
         android:textColor="@color/black"
         android:textSize="20sp"

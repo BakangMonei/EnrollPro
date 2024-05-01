@@ -6,9 +6,7 @@ package com.assignment.enrollpro.Screens;
  * @Location: University Of Botswana, Gaborone, Botswana
  */
 import static android.content.ContentValues.TAG;
-
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -53,7 +51,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class LectureActivity extends AppCompatActivity {
-
     private static final int REQUEST_CAMERA = 1;
     ImageView itemsViewImageView, deletedItemsImageView;
     FirebaseFirestore db;
@@ -107,17 +104,6 @@ public class LectureActivity extends AppCompatActivity {
                     showLogoutDialog();
                     return true;
                 }
-//                else if (item.getItemId() == R.id.nav_qrScanner) {
-//                    // Handle QR Scanner menu item click
-//                    Toast.makeText(LectureActivity.this, "Scanner Clicked", Toast.LENGTH_SHORT).show();
-//
-//                    if (ContextCompat.checkSelfPermission(LectureActivity.this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
-//                        ActivityCompat.requestPermissions(LectureActivity.this, new String[]{Manifest.permission.CAMERA}, REQUEST_CAMERA);
-//                    } else {
-//                        initiateScan();
-//                    }
-//                    return true;
-//                }
                 return false;
             }
         });
@@ -306,11 +292,6 @@ public class LectureActivity extends AppCompatActivity {
     }
 
 
-
-    private void openQRCodeScanner() {
-        Toast.makeText(LectureActivity.this, "Scanner Clicked", Toast.LENGTH_SHORT).show();
-    }
-
     private void launchLectureActivity() {
         Toast.makeText(LectureActivity.this, "Home Clicked", Toast.LENGTH_SHORT).show();
     }
@@ -389,6 +370,4 @@ public class LectureActivity extends AppCompatActivity {
             Log.d(TAG, "Current user is null");
         }
     }
-
-
 }
