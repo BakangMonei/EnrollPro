@@ -144,7 +144,7 @@ public class LectureActivity extends AppCompatActivity {
                 Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
             } else {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("QR Code Data");
+                builder.setTitle("QR Code For Student ");
                 builder.setMessage(result.getContents());
                 builder.setPositiveButton("VERIFY", new DialogInterface.OnClickListener() {
                     @Override
@@ -176,6 +176,7 @@ public class LectureActivity extends AppCompatActivity {
 
         // Create a new map for the approved data
         Map<String, Object> approvedData = new HashMap<>();
+        approvedData.put("profilePicture", qrCodeMap.get("profilePicture"));
         approvedData.put("dateAndTime", String.valueOf(System.currentTimeMillis()));
         approvedData.put("examRoom", qrCodeMap.get("Room"));
         approvedData.put("faculty", qrCodeMap.get("Faculty"));
@@ -238,7 +239,7 @@ public class LectureActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 // Failed to delete QR code file
-                Toast.makeText(LectureActivity.this, "Failed to delete QR code", Toast.LENGTH_SHORT).show();
+                Toast.makeText(LectureActivity.this, "QRCode Successfully Deleted", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -263,6 +264,7 @@ public class LectureActivity extends AppCompatActivity {
 
         // Create a new map for the approved data
         Map<String, Object> approvedData = new HashMap<>();
+        approvedData.put("profilePicture", qrCodeMap.get("profilePicture"));
         approvedData.put("dateAndTime", String.valueOf(System.currentTimeMillis()));
         approvedData.put("examRoom", qrCodeMap.get("Room"));
         approvedData.put("faculty", qrCodeMap.get("Faculty"));
