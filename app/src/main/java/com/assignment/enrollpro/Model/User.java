@@ -3,16 +3,18 @@ package com.assignment.enrollpro.Model;
 public class User {
 
     private String firstname, lastname, email, phoneNumber, username;
+    private String profileImageUrl;
 
     public User() {
     }
 
-    public User(String firstname, String lastname, String email, String phoneNumber, String username) {
+    public User(String firstname, String lastname, String email, String phoneNumber, String username, String profileImageUrl) {
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
         this.phoneNumber = phoneNumber;
         this.username = username;
+        this.profileImageUrl = profileImageUrl;
     }
 
     public String getFirstname() {
@@ -33,6 +35,10 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getProfileImageUrl() {
+        return profileImageUrl;
     }
 
     public void setEmail(String email) {
