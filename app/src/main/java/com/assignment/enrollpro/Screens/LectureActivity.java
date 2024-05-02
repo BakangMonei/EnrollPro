@@ -272,7 +272,7 @@ protected void onActivityResult(int requestCode, int resultCode, Intent data) {
             Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
         } else {
             Map<String, String> qrCodeMap = parseQRCodeData(result.getContents());
-            String profilePictureUrl = qrCodeMap.get("profilePicture");
+            String profilePictureUrl = qrCodeMap.get("Profile Picture:");// this was the problem
 
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             LayoutInflater inflater = getLayoutInflater();
