@@ -182,9 +182,9 @@ public class LectureActivity extends AppCompatActivity {
         approvedData.put("faculty", qrCodeMap.get("Faculty"));
         approvedData.put("firstName", qrCodeMap.get("First Name"));
         approvedData.put("lastName", qrCodeMap.get("Last Name"));
-        approvedData.put("moduleLeaderEmail", qrCodeMap.get("Module Leader Email"));
-        approvedData.put("moduleLeaderName", qrCodeMap.get("Module Leader Name"));
-        approvedData.put("moduleName", qrCodeMap.get("Module Name"));
+        approvedData.put("moduleLeaderEmail", qrCodeMap.get("Lecture Email"));
+        approvedData.put("moduleLeaderName", qrCodeMap.get("Lecture Name"));
+        approvedData.put("moduleName", qrCodeMap.get("Course"));
         approvedData.put("phoneNumber", qrCodeMap.get("Phone Number"));
 //        approvedData.put("qrCodeImage", qrCodeMap.get("qrCodeImage"));
         approvedData.put("studentEmail", qrCodeMap.get("Student Email"));
@@ -270,9 +270,9 @@ public class LectureActivity extends AppCompatActivity {
         approvedData.put("faculty", qrCodeMap.get("Faculty"));
         approvedData.put("firstName", qrCodeMap.get("First Name"));
         approvedData.put("lastName", qrCodeMap.get("Last Name"));
-        approvedData.put("moduleLeaderEmail", qrCodeMap.get("Module Leader Email"));
-        approvedData.put("moduleLeaderName", qrCodeMap.get("Module Leader Name"));
-        approvedData.put("moduleName", qrCodeMap.get("Module Name"));
+        approvedData.put("moduleLeaderEmail", qrCodeMap.get("Lecture Email"));
+        approvedData.put("moduleLeaderName", qrCodeMap.get("Lecture Name"));
+        approvedData.put("moduleName", qrCodeMap.get("Course"));
         approvedData.put("phoneNumber", qrCodeMap.get("Phone Number"));
         approvedData.put("studentEmail", qrCodeMap.get("Student Email"));
         approvedData.put("studentIDNumber", qrCodeMap.get("Student ID Number"));
