@@ -17,7 +17,7 @@
 
         android:layout_marginTop="14dp"
         android:fontFamily="@font/forumregular"
-        android:text="View Deleted Scheduled \nExams"
+        android:text="Rejected Students"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="30sp"
