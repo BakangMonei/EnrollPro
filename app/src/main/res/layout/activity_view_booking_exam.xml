@@ -15,7 +15,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginTop="14dp"
         android:fontFamily="@font/forumregular"
-        android:text="View Written Exams"
+        android:text="View Attendees"
         android:textAlignment="center"
         android:textColor="@color/white"
         android:textSize="30sp"
