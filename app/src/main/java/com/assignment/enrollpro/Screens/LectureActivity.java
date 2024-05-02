@@ -136,39 +136,85 @@ public class LectureActivity extends AppCompatActivity {
         integrator.initiateScan();
     }
 
+    // @Override
+    // protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    //     IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+    //     if (result != null) {
+    //         if (result.getContents() == null) {
+    //             Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
+    //         } else {
+    //             AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    //             builder.setTitle("QR Code For Student ");
+    //             builder.setMessage(result.getContents());
+    //             builder.setPositiveButton("VERIFY", new DialogInterface.OnClickListener() {
+    //                 @Override
+    //                 public void onClick(DialogInterface dialog, int which) {
+    //                     // Handle VERIFY button click
+    //                     String qrCodeData = result.getContents();
+    //                     addToApprovedCollection(qrCodeData);
+    //                     deleteQRCode(qrCodeData);
+    //                 }
+    //             });
+    //             builder.setNegativeButton("REJECT", new DialogInterface.OnClickListener() {
+    //                 @Override
+    //                 public void onClick(DialogInterface dialog, int which) {
+    //                     // Handle REJECT button click
+    //                     String qrCodeData = result.getContents();
+    //                     addToDeletedCollection(qrCodeData);
+    //                 }
+    //             });
+    //             builder.create().show();
+    //         }
+    //     } else {
+    //         super.onActivityResult(requestCode, resultCode, data);
+    //     }
+    // }
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
-        if (result != null) {
-            if (result.getContents() == null) {
-                Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
-            } else {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle("QR Code For Student ");
-                builder.setMessage(result.getContents());
-                builder.setPositiveButton("VERIFY", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Handle VERIFY button click
-                        String qrCodeData = result.getContents();
-                        addToApprovedCollection(qrCodeData);
-                        deleteQRCode(qrCodeData);
-                    }
-                });
-                builder.setNegativeButton("REJECT", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Handle REJECT button click
-                        String qrCodeData = result.getContents();
-                        addToDeletedCollection(qrCodeData);
-                    }
-                });
-                builder.create().show();
-            }
+protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+    IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
+    if (result != null) {
+        if (result.getContents() == null) {
+            Toast.makeText(this, "Cancelled", Toast.LENGTH_LONG).show();
         } else {
-            super.onActivityResult(requestCode, resultCode, data);
+            Map<String, String> qrCodeMap = parseQRCodeData(result.getContents());
+            String profilePictureUrl = qrCodeMap.get("profilePicture");
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            LayoutInflater inflater = getLayoutInflater();
+            View dialogView = inflater.inflate(R.layout.dialog_qr_code_result, null);
+            builder.setView(dialogView);
+
+            TextView textView = dialogView.findViewById(R.id.dialog_text_view);
+            textView.setText(result.getContents());
+
+            ImageView imageView = dialogView.findViewById(R.id.dialog_image_view);
+            Glide.with(this).load(profilePictureUrl).into(imageView);
+
+            builder.setTitle("QR Code For Student ");
+            builder.setPositiveButton("VERIFY", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // Handle VERIFY button click
+                    String qrCodeData = result.getContents();
+                    addToApprovedCollection(qrCodeData);
+                    deleteQRCode(qrCodeData);
+                }
+            });
+            builder.setNegativeButton("REJECT", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    // Handle REJECT button click
+                    String qrCodeData = result.getContents();
+                    addToDeletedCollection(qrCodeData);
+                }
+            });
+            builder.create().show();
         }
+    } else {
+        super.onActivityResult(requestCode, resultCode, data);
     }
+}
 
     private void addToApprovedCollection(String qrCodeData) {
         // Parse the QR code data into a map
