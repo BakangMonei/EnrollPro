@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+rts<?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -125,7 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:layout_marginTop="5dp"
-            android:text="Opening Student \nLists"
+            android:text="Opening Student \nReports"
             android:textColor="@color/white"
             android:gravity="center"
             app:layout_constraintEnd_toEndOf="@+id/itemsPurchasedImageView"
